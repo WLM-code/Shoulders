@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs><clipPath id="c"><rect width="512" height="512"/></clipPath></defs>
+<g clip-path="url(#c)">
+<rect width="512" height="512" fill="#CBEFE0"/>
+<path d="M256 300 L956.0 300.0 L932.1 481.2 Z" fill="#E4F7EE"/><path d="M256 300 L862.2 650.0 L751.0 795.0 Z" fill="#E4F7EE"/><path d="M256 300 L606.0 906.2 L437.2 976.1 Z" fill="#E4F7EE"/><path d="M256 300 L256.0 1000.0 L74.8 976.1 Z" fill="#E4F7EE"/><path d="M256 300 L-94.0 906.2 L-239.0 795.0 Z" fill="#E4F7EE"/><path d="M256 300 L-350.2 650.0 L-420.1 481.2 Z" fill="#E4F7EE"/><path d="M256 300 L-444.0 300.0 L-420.1 118.8 Z" fill="#E4F7EE"/><path d="M256 300 L-350.2 -50.0 L-239.0 -195.0 Z" fill="#E4F7EE"/><path d="M256 300 L-94.0 -306.2 L74.8 -376.1 Z" fill="#E4F7EE"/><path d="M256 300 L256.0 -400.0 L437.2 -376.1 Z" fill="#E4F7EE"/><path d="M256 300 L606.0 -306.2 L751.0 -195.0 Z" fill="#E4F7EE"/><path d="M256 300 L862.2 -50.0 L932.1 118.8 Z" fill="#E4F7EE"/>
+<path d="M70 540 C70 410 150 355 256 355 C362 355 442 410 442 540 Z" fill="#F2933A" stroke="#141414" stroke-width="10"/>
+<circle cx="300" cy="290" r="66" fill="#FFFDF6" stroke="#141414" stroke-width="10"/>
+<path d="M96 392 C96 352 114 334 146 334 C178 334 196 352 196 392 Z" fill="#E8409A" stroke="#141414" stroke-width="9"/>
+<circle cx="146" cy="292" r="28" fill="#FFFDF6" stroke="#141414" stroke-width="9"/>
+</g></svg>

@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Op hun schouders</title>
+<meta name="theme-color" content="#CBEFE0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Schouders">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mint:#CBEFE0; --mint2:#E4F7EE; --cream:#FFFDF6; --ink:#141414;
+  --hot:#E8409A; --pink:#F6A9CB; --orange:#F2933A; --sun:#FFD34D;
+  --purple:#6B3FA0; --sky:#9AD7F2; --red:#E23B3B;
+  --caps:'Libre Caslon Text',Georgia,'Times New Roman',serif;
+  --body:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --line:1.5px solid var(--ink);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--body);font-size:17px;line-height:1.45;color:var(--ink);background:var(--mint);
+  background-image:repeating-conic-gradient(from 0deg at 50% 0%, rgba(255,255,255,.32) 0 6deg, transparent 6deg 12deg);
+  background-attachment:fixed}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+[hidden]{display:none!important}
+#app{max-width:640px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+
+/* kaders */
+.card{background:var(--cream);border:var(--line);border-radius:14px;overflow:hidden}
+.cap{font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.btn{display:inline-block;font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:14px;
+  padding:12px 18px;border:var(--line);border-radius:999px;background:var(--cream);min-height:46px}
+.btn.main{background:var(--hot);color:#fff}
+.btn.sun{background:var(--sun)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.5}
+.btn.small{padding:8px 14px;min-height:38px;font-size:12px}
+.link{text-decoration:underline;font-size:15px}
+
+/* bovenbalk */
+.top{padding:max(14px,env(safe-area-inset-top)) 16px 8px}
+.brand{display:block;text-align:center;background:var(--cream);border:var(--line);border-radius:14px;padding:10px 12px;
+  font-family:var(--caps);text-transform:uppercase;letter-spacing:.14em;font-weight:700;font-size:15px}
+.brand small{display:block;font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:400;font-style:italic;font-size:14px;margin-top:2px}
+.content{flex:1;padding:8px 16px 110px;display:flex;flex-direction:column;gap:14px}
+h2{font-family:var(--caps);text-transform:uppercase;letter-spacing:.08em;font-size:15px;margin:6px 2px 0}
+
+/* navigatie */
+.nav{position:fixed;left:0;right:0;bottom:0;padding:8px 16px max(10px,env(safe-area-inset-bottom));display:flex;justify-content:center;pointer-events:none}
+.nav>div{pointer-events:auto;display:flex;width:100%;max-width:608px;background:var(--cream);border:var(--line);border-radius:999px;overflow:hidden}
+.nav button{flex:1;padding:12px 4px;font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:13px}
+.nav button+button{border-left:var(--line)}
+.nav button.on{background:var(--sun)}
+
+/* dagquote */
+.qcard{background:var(--cream);border:var(--line);border-radius:14px;overflow:hidden}
+.qcard .qh{border-bottom:var(--line);padding:8px 12px;text-align:center;font-family:var(--caps);text-transform:uppercase;letter-spacing:.1em;font-size:12px;font-weight:700;background:var(--sun)}
+.qcard .qb{padding:16px 18px}
+.qcard blockquote{font-size:20px;line-height:1.3;font-style:italic}
+.qcard cite{display:block;margin-top:10px;font-style:normal;font-size:14px}
+.qcard cite b{font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em}
+
+/* figuren */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fc{background:var(--cream);border:var(--line);border-radius:14px;overflow:hidden;text-align:left;display:flex;flex-direction:column}
+.fc .nm{border-bottom:var(--line);padding:8px 6px;text-align:center;font-family:var(--caps);text-transform:uppercase;letter-spacing:.05em;font-weight:700;font-size:12.5px;line-height:1.2}
+.art{position:relative;aspect-ratio:1/.85;overflow:hidden;border-bottom:var(--line);
+  background:repeating-conic-gradient(from 0deg at 50% 78%, var(--c) 0 9deg, color-mix(in srgb,var(--c) 50%, #fff) 9deg 18deg)}
+.art .sh{position:absolute;left:14%;right:14%;bottom:-34%;height:70%;border-radius:50%;background:var(--a,var(--sun));border:var(--line)}
+.art .hd{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:1;transform:translate(-50%,-62%);border-radius:50%;background:var(--cream);border:var(--line);display:grid;place-items:center;
+  font-family:var(--caps);font-weight:700;font-size:clamp(22px,8vw,40px)}
+.art .st{position:absolute;width:9px;height:9px;background:var(--cream);border:1.5px solid var(--ink);border-radius:50%}
+.fc{background:var(--cream);box-shadow:3px 3px 0 var(--ink);border-radius:16px;padding:6px}
+.fc .nm{border:var(--line);border-radius:10px;background:#fff;margin-bottom:6px}
+.fc .art{border:var(--line);border-radius:10px;aspect-ratio:1/1.05}
+.fc .art:after{content:"";position:absolute;inset:5px;border:1px solid var(--ink);border-radius:7px;opacity:.5;pointer-events:none}
+.art .sy{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1;transform:translate(-50%,-50%);background:var(--cream);border:var(--line);display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink)}
+.art .sy svg{width:78%;height:78%}
+.art.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.fc .tg{padding:8px 4px 6px;font-size:13.5px;line-height:1.3;flex:1}
+.fc .ln{display:flex;gap:6px;align-items:flex-start;margin-top:6px}
+.fc .ln svg{flex:none;margin-top:1px;width:16px;height:16px}
+.fc .yr{display:block;font-style:normal;font-size:12.5px;opacity:.75;margin-bottom:3px}
+.sm{width:40px;height:40px;border-radius:50%;border:var(--line);display:grid;place-items:center;font-family:var(--caps);font-weight:700;font-size:15px;background:var(--cream);flex:none;
+  box-shadow:inset 0 -14px 0 0 var(--c)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:var(--line);border-radius:999px;padding:5px 11px;font-size:13.5px;background:var(--cream)}
+.chip.pick{padding:8px 13px;font-size:15px}
+.chip.on{background:var(--sun);font-weight:600}
+
+/* chatlijst */
+.room{display:flex;gap:12px;align-items:center;padding:12px;text-align:left;width:100%}
+.room .av{display:flex}
+.room .av .sm{width:34px;height:34px;font-size:12px;margin-left:-10px;box-shadow:inset 0 -12px 0 0 var(--c)}
+.room .av .sm:first-child{margin-left:0}
+.room .tx{flex:1;min-width:0}
+.room b{display:block;font-family:var(--caps);font-size:15px;letter-spacing:.02em}
+.room small{display:block;font-size:14px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{padding:22px 18px;text-align:center;font-style:italic}
+
+/* sheet */
+.veil{position:fixed;inset:0;background:rgba(20,20,20,.45);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheet{width:100%;max-width:640px;max-height:90dvh;overflow:auto;background:var(--cream);border:var(--line);border-bottom:0;border-radius:18px 18px 0 0;padding:18px 18px max(22px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.sheet h3{font-family:var(--caps);text-transform:uppercase;letter-spacing:.08em;font-size:16px;text-align:center}
+.sheet .x{align-self:flex-end;font-size:14px;text-decoration:underline}
+.code{font-family:var(--caps);font-weight:700;font-size:34px;letter-spacing:.2em;text-align:center;background:var(--mint2);border:var(--line);border-radius:12px;padding:10px}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:15px}
+label.f span{font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-size:12px;font-weight:700}
+input[type=text],input[type=email],input[type=password],textarea{width:100%;border:var(--line);border-radius:12px;padding:12px 14px;background:#fff;font-size:17px}
+input:focus,textarea:focus{outline:3px solid var(--sky)}
+.hint{font-size:14px;opacity:.8}
+.err{background:#FFE3E3;border:var(--line);border-radius:12px;padding:10px 12px;font-size:15px}
+.ok{background:var(--mint2);border:var(--line);border-radius:12px;padding:10px 12px;font-size:15px}
+
+/* inloggen */
+.auth{padding:6px 16px 40px;display:flex;flex-direction:column;gap:14px}
+.auth .card{padding:18px;display:flex;flex-direction:column;gap:14px}
+.tabs{display:flex;border:var(--line);border-radius:999px;overflow:hidden}
+.tabs button{flex:1;padding:10px;font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:13px}
+.tabs button+button{border-left:var(--line)}
+.tabs .on{background:var(--sun)}
+
+/* chat */
+.chat{display:flex;flex-direction:column;height:100dvh}
+.chat-top{display:flex;align-items:center;gap:10px;padding:max(10px,env(safe-area-inset-top)) 12px 10px;background:var(--cream);border-bottom:var(--line)}
+.chat-top .ct{flex:1;min-width:0}
+.chat-top b{display:block;font-family:var(--caps);text-transform:uppercase;letter-spacing:.05em;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-top small{display:block;font-size:13px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{border:var(--line);border-radius:999px;min-width:42px;height:42px;padding:0 12px;font-family:var(--caps);text-transform:uppercase;font-weight:700;font-size:12px;letter-spacing:.05em;background:var(--cream)}
+.list{flex:1;overflow:auto;padding:14px 14px 8px;display:flex;flex-direction:column;gap:12px}
+.note{align-self:center;max-width:92%;text-align:center;font-size:14px;font-style:italic;background:var(--cream);border:var(--line);border-radius:12px;padding:9px 12px}
+.m{display:flex;gap:8px;max-width:92%}
+.m.me{align-self:flex-end;flex-direction:row-reverse}
+.bub{border:var(--line);border-radius:16px;padding:9px 13px;background:#fff;min-width:0;overflow-wrap:anywhere}
+.m.me .bub{background:var(--sun)}
+.who{display:block;font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-weight:700;font-size:11.5px;margin-bottom:2px}
+.who i{font-style:normal;font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:400;opacity:.7;margin-left:6px}
+.m.fig .bub{background:var(--cream)}
+.m.fig .sm{margin-top:2px}
+.q{margin-top:9px;padding:8px 10px;border:var(--line);border-radius:10px;background:var(--mint2);font-style:italic;font-size:16px}
+.q cite{display:block;font-style:normal;font-size:12.5px;margin-top:4px;opacity:.8}
+.tk{display:flex;gap:7px;align-items:center;margin-top:9px;padding-top:8px;border-top:1px dashed var(--ink);font-size:15px}
+.tk svg{flex:none}
+.typing{padding:2px 16px 6px;font-style:italic;font-size:14px}
+.composer{padding:8px 12px max(10px,env(safe-area-inset-bottom));background:var(--cream);border-top:var(--line);display:flex;flex-direction:column;gap:8px}
+.sw{align-self:flex-start;display:flex;align-items:center;gap:8px;font-size:14px;padding:4px 2px}
+.sw i{width:38px;height:22px;border:var(--line);border-radius:999px;position:relative;background:#fff;transition:background .15s}
+.sw i:after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--ink);transition:transform .15s}
+.sw[aria-pressed=true] i{background:var(--hot)}
+.sw[aria-pressed=true] i:after{transform:translateX(16px);background:#fff;border:1px solid var(--ink)}
+.inp{display:flex;gap:8px;align-items:flex-end}
+.inp textarea{resize:none;max-height:140px;border-radius:18px}
+.send{flex:none;width:46px;height:46px;border-radius:50%;border:var(--line);background:var(--hot);color:#fff;font-size:22px;font-weight:700}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);max-width:88%;background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-size:15px;z-index:99;text-align:center}
+ol.steps{padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:16px}
+.pad{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- Gegevens die ook zonder database werken ---------- */
+var FALLBACK = [
+ {slug:'wollstonecraft',name:'Mary Wollstonecraft',years:'1759–1797',country:'Engeland',color:'#6B3FA0',
+  tagline:'Vrouwen verdienen dezelfde opleiding als mannen.',themes:['onderwijs','zelfstandigheid','rede'],
+  bio:'Schreef in 1792 A Vindication of the Rights of Woman. Vond dat vrouwen niet van nature minder zijn, maar minder kansen krijgen om te leren en na te denken.',
+  quotes:[{"text": "I do not wish them to have power over men; but over themselves.", "source": "A Vindication of the Rights of Woman, 1792"}, {"text": "Strengthen the female mind by enlarging it, and there will be an end to blind obedience.", "source": "A Vindication of the Rights of Woman, 1792"}, {"text": "It is justice, not charity, that is wanting in the world.", "source": "A Vindication of the Rights of Woman, 1792"}, {"text": "It is vain to expect virtue from women till they are in some degree independent of men.", "source": "A Vindication of the Rights of Woman, 1792"}, {"text": "I wish to persuade women to endeavor to acquire strength, both of mind and body.", "source": "A Vindication of the Rights of Woman, 1792"}]},
+ {slug:'truth',name:'Sojourner Truth',years:'ca. 1797–1883',country:'Verenigde Staten',color:'#E23B3B',
+  tagline:'Geboren in slavernij, spreker voor vrijheid en gelijke rechten.',themes:['ras en gender','spreken','kracht'],
+  bio:'Ontsnapte aan slavernij, werd een gevierd spreker voor de afschaffing van slavernij en voor vrouwenrechten. Liet zien dat de strijd voor vrouwen ook de strijd voor Zwarte vrouwen moet zijn.',
+  quotes:[{"text": "Ain't I a woman?", "source": "Toespraak in Akron, 1851 (overgeleverd door Frances Gage, wording betwist)"}, {"text": "Truth burns up error.", "source": "Narrative of Sojourner Truth (Olive Gilbert)"}, {"text": "Then I will speak upon the ashes.", "source": "1862, over een dreiging dat de zaal zou worden verbrand (Narrative of Sojourner Truth)"}, {"text": "I am glad to see that men are getting their rights, but I want women to get theirs, and while the water is stirring I will step into the pool.", "source": "Toespraak, 1867"}, {"text": "Religion without humanity is poor human stuff.", "source": "Toespraak, 1851 (aangehaald door Carleton Mabee)"}]},
+ {slug:'jacobs',name:'Aletta Jacobs',years:'1854–1929',country:'Nederland',color:'#1FA59A',
+  tagline:'De eerste vrouwelijke arts van Nederland, strijdt voor kiesrecht en anticonceptie.',themes:['gezondheid','kiesrecht','zelfbeschikking'],
+  bio:'Werd in 1879 de eerste vrouw in Nederland met een artsendiploma. Opende een spreekuur voor arme vrouwen, vocht voor vrouwenkiesrecht en voor toegang tot anticonceptie.',quotes:[{"text": "Waarom zou een vrouw wel apotheker en geen dokter kunnen worden?", "source": "Herinneringen, 1924"}, {"text": "Ik mag immers toch niets worden omdat ik een meisje ben!", "source": "Herinneringen, 1924"}, {"text": "If we can bring women to feel that internationalism is higher than nationalism, then they won't stand by governments, they'll stand by humanity.", "source": "1915 (aangehaald in Foster, Women for All Seasons)"}, {"text": "When the time comes, I will feel free to say that I have contributed to making the world I leave a better place than the world I entered.", "source": "Aangehaald in Women in World History"}]},
+ {slug:'phule',name:'Savitribai Phule',years:'1831–1897',country:'India',color:'#FFD34D',
+  tagline:'Opende de eerste meisjesschool en vocht tegen kaste en uitsluiting.',themes:['onderwijs','kaste','solidariteit'],
+  bio:'Werd de eerste vrouwelijke leraar van India en richtte met haar man scholen op voor meisjes en kinderen uit onderdrukte kasten. Werd bekogeld met stenen en modder, en ging gewoon door.',quotes:[{"text": "Be self-reliant, be industrious.", "source": "Gedicht ‘Go, Get Education’ (Engelse vertaling uit het Marathi)"}, {"text": "All gets lost without knowledge.", "source": "Gedicht ‘Go, Get Education’ (Engelse vertaling uit het Marathi)"}, {"text": "Sit idle no more, go, get education.", "source": "Gedicht ‘Go, Get Education’ (Engelse vertaling uit het Marathi)"}]},
+ {slug:'beauvoir',name:'Simone de Beauvoir',years:'1908–1986',country:'Frankrijk',color:'#E8409A',
+  tagline:'Je wordt niet als vrouw geboren, je wordt het.',themes:['vrijheid','rolpatronen','denken'],
+  bio:"Filosoof en schrijver. In Le Deuxième Sexe (1949) liet ze zien hoe wat we 'vrouwelijk' noemen is gemaakt door samenleving en opvoeding.",
+  quotes:[{"text": "One is not born, but rather becomes, a woman.", "source": "Le Deuxième Sexe, 1949 (Engelse vertaling)"}, {"text": "Her wings are cut and then she is blamed for not knowing how to fly.", "source": "Le Deuxième Sexe, 1949 (Engelse vertaling)"}, {"text": "The body is not a thing, it is a situation.", "source": "Le Deuxième Sexe, 1949 (Engelse vertaling)"}, {"text": "Authentic love must be founded on reciprocal recognition of two freedoms.", "source": "Le Deuxième Sexe, 1949 (Engelse vertaling)"}]},
+ {slug:'lorde',name:'Audre Lorde',years:'1934–1992',country:'Verenigde Staten',color:'#2F6FDE',
+  tagline:'Dichter, Zwart, lesbisch, moeder, strijder. Verschil is kracht.',themes:['intersectionaliteit','woede','zelfzorg'],
+  bio:'Dichter en essayist, dochter van Caribische migranten. Schreef over racisme, seksisme, homofobie en klasse, en over ziek zijn. Zag verschil als kracht.',
+  quotes:[{"text": "The master's tools will never dismantle the master's house.", "source": "Toespraak, 1979"}, {"text": "Your silence will not protect you.", "source": "The Transformation of Silence into Language and Action, in Sister Outsider"}, {"text": "Caring for myself is not self-indulgence, it is self-preservation.", "source": "A Burst of Light, 1988"}, {"text": "Change is the immediate responsibility of each of us.", "source": "Learning from the 60s, in Sister Outsider"}, {"text": "I am not free while any woman is unfree", "source": "Learning from the 60s, in Sister Outsider"}]},
+ {slug:'hooks',name:'bell hooks',years:'1952–2021',country:'Verenigde Staten',color:'#F2933A',
+  tagline:'Feminisme is voor iedereen.',themes:['liefde','klasse','ras','leren'],
+  bio:'Schreef over ras, klasse en gender, over liefde en over onderwijs. Zij schreef haar naam bewust met kleine letters: het gaat om haar ideeën, niet om haar.',
+  quotes:[{"text": "Feminism is for everybody.", "source": "Feminism Is for Everybody, 2000"}, {"text": "Feminism is a movement to end sexism, sexist exploitation, and oppression.", "source": "Feminism Is for Everybody, 2000"}, {"text": "We do not have to love. We choose to love.", "source": "All About Love, 2000"}, {"text": "The moment we choose to love we begin to move against domination, against oppression.", "source": "Outlaw Culture, 1994"}]},
+ {slug:'mernissi',name:'Fatema Mernissi',years:'1940–2015',country:'Marokko',color:'#0F8B6D',
+  tagline:'Vrijheid en islam hoeven elkaar niet uit te sluiten.',themes:['islam','macht','verhalen'],
+  bio:'Marokkaanse socioloog en schrijver. Onderzocht hoe religie en traditie zijn gebruikt om vrouwen klein te houden, en liet zien hoe vrouwen eigen macht en verhalen hadden.',quotes:[{"text": "Angry women are hostages of their anger.", "source": "Dreams of Trespass, 1994"}, {"text": "The worst of prisons is a self-created one.", "source": "Dreams of Trespass, 1994"}, {"text": "Mothers should tell little girls and boys about the importance of dreams.", "source": "Dreams of Trespass, 1994"}, {"text": "If you can't get out, you are on the powerless side.", "source": "Dreams of Trespass, 1994"}]},
+ {slug:'maathai',name:'Wangari Maathai',years:'1940–2011',country:'Kenia',color:'#5BAA3C',
+  tagline:'Plant een boom en verander je wereld.',themes:['natuur','volhouden','moed'],
+  bio:'Kreeg als eerste Afrikaanse vrouw de Nobelprijs voor de Vrede (2004). Richtte de Green Belt Movement op, waarmee vrouwen miljoenen bomen plantten en zo inkomen en zelfvertrouwen kregen.',
+  quotes:[{"text": "It's the little things citizens do. That's what will make the difference.", "source": "Wangari Maathai"}, {"text": "If we can send man to the moon, why can we not plant a tree?", "source": "Wangari Maathai"}, {"text": "…to heal her wounds and in the process heal our own.", "source": "Nobellezing, 2004"}]},
+ {slug:'anzaldua',name:'Gloria Anzaldúa',years:'1942–2004',country:'Verenigde Staten (Texas)',color:'#B04BC9',
+  tagline:'Wonen op de grens: tussen talen, culturen en identiteiten.',themes:['identiteit','grenzen','taal'],
+  bio:"Chicana-schrijver en denker uit Zuid-Texas. Schreef over leven tussen twee culturen, taal en queer-zijn. Zag het 'tussen in zitten' als een bron van inzicht.",
+  quotes:[{"text": "Nothing happens in the ‘real’ world unless it first happens in the images in our heads.", "source": "Borderlands/La Frontera, 1987"}, {"text": "Awareness of our situation must come before inner changes…", "source": "Borderlands/La Frontera, 1987"}, {"text": "The sea cannot be fenced, El mar does not stop at borders.", "source": "Borderlands/La Frontera, 1987"}]},
+ {slug:"angelou",name:"Maya Angelou",years:"1928–2014",country:"Verenigde Staten",color:"#D9482B",kind:"historisch",
+  tagline:"Dichter, verteller, overlever. Je kunt veranderd worden zonder verkleind te worden.",themes:["veerkracht", "stem", "trots"],
+  bio:"Schreef over opgroeien in het gescheiden Zuiden, over racisme, trauma en kracht. Werd dichter, activist en een van de meest gelezen stemmen van Amerika.",quotes:[{"text": "There is no greater agony than bearing an untold story inside you.", "source": "I Know Why the Caged Bird Sings, 1969"}, {"text": "…I refuse to be reduced by it.", "source": "Letter to My Daughter, 2008"}, {"text": "Try to be a rainbow in someone’s cloud.", "source": "Letter to My Daughter, 2008"}, {"text": "A friend may be waiting behind a stranger’s face.", "source": "Letter to My Daughter, 2008"}]},
+ {slug:"pankhurst",name:"Emmeline Pankhurst",years:"1858–1928",country:"Engeland",color:"#7A2E8E",kind:"historisch",
+  tagline:"Deeds, not words. Kiesrecht moest je afdwingen.",themes:["kiesrecht", "actie", "moed"],
+  bio:"Richtte in 1903 de WSPU op, de suffragettes. Na jaren vergeefs vragen koos ze voor actie en ging vaak de gevangenis in. Vrouwen kregen in 1918 en 1928 in Engeland stemrecht.",quotes:[{"text": "Deeds, not words.", "source": "Motto van de WSPU"}, {"text": "I look upon myself as a prisoner of war.", "source": "Rede in de rechtbank, 1908"}, {"text": "…in our efforts to become law-makers.", "source": "Toespraak, ‘We are here, not because we are law-breakers’"}]},
+ {slug:"butler",name:"Octavia E. Butler",years:"1947–2006",country:"Verenigde Staten",color:"#2A7F8C",kind:"historisch",
+  tagline:"Sciencefiction over macht, verandering en samen overleven.",themes:["verandering", "toekomst", "gemeenschap"],
+  bio:"Zwarte sciencefictionschrijver, de eerste in het genre met een MacArthur-beurs. Schreef over macht, ras, gender en hoe mensen samen een toekomst bouwen.",quotes:[{"text": "The only lasting truth is Change.", "source": "Parable of the Sower, 1993"}, {"text": "There is no end to what a living world will demand of you.", "source": "Parable of the Sower, 1993"}]},
+ {slug:"varda",name:"Agnès Varda",years:"1928–2019",country:"België / Frankrijk",color:"#E7B21E",kind:"historisch",
+  tagline:"Regisseur met nieuwsgierigheid, humor en aandacht voor gewone mensen.",themes:["creativiteit", "nieuwsgierigheid", "kijken"],
+  bio:"Pionier van de Franse Nouvelle Vague. Maakte films, foto’s en kunst, vaak over vrouwen en gewone mensen. Kreeg in 2017 een Oscar voor haar levenswerk.",quotes:[{"text": "Three words are important to me: inspiration, creation, sharing.", "source": "Varda par Agnès, 2019"}, {"text": "Nothing is banal if you film people with empathy and love.", "source": "Varda par Agnès, 2019"}]},
+ {slug:"ginsburg",name:"Ruth Bader Ginsburg",years:"1933–2020",country:"Verenigde Staten",color:"#3C4DA8",kind:"historisch",
+  tagline:"Jurist die wetten veranderde, één stap tegelijk.",themes:["recht", "volhouden", "gelijkheid"],
+  bio:"Advocaat en later rechter bij het Amerikaanse Hooggerechtshof (1993–2020). Won zaken die de wet voor mannen en vrouwen gelijker maakten, stap voor stap.",quotes:[{"text": "Women belong in all places where decisions are being made.", "source": "Interview, 2009"}, {"text": "You can disagree without being disagreeable.", "source": "Toespraak Cornell University, 2016"}]},
+ {slug:"greer",name:"Germaine Greer",years:"geboren 1939",country:"Australië",color:"#C8553D",kind:"nu",
+  tagline:"Scherp, provocerend en omstreden. Vrouwen moeten bevrijd worden, niet gelijk gemaakt.",themes:["lichaam", "bevrijding", "kritiek"],
+  bio:"Schreef in 1970 The Female Eunuch, een boegbeeld van het feminisme van de tweede golf. Wil bevrijding van vrouwen, meer dan gelijkheid met mannen. Omstreden om haar uitspraken over transvrouwen.",quotes:[{"text": "Whenever we treat women’s bodies as aesthetic objects without function we deform them.", "source": "The Female Eunuch, 1970"}, {"text": "Abandonment of slavery is also the banishment of the chimera of security.", "source": "The Female Eunuch, 1970"}]}
+];
+
+var cfg = window.APP_CONFIG || {};
+var url = String(cfg.SUPABASE_URL || '').trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
+var key = String(cfg.SUPABASE_ANON_KEY || '').trim();
+var sb = (url && key && window.supabase) ? window.supabase.createClient(url, key) : null;
+
+var S = {
+  tab: 'chats', user: null, profile: null,
+  figures: FALLBACK.slice(), rooms: [],
+  room: null, members: {}, roomFigs: [], msgs: [], ids: {},
+  ask: true, sending: false, authMode: 'login', typingTimer: null, channel: null, ready: false
+};
+
+/* ---------- Hulpjes ---------- */
+function $(s, r){ return (r || document).querySelector(s); }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function br(s){ return esc(s).replace(/\n/g, '<br>'); }
+function initials(n){ var p = String(n).trim().split(/\s+/); return ((p[0]||'')[0] || '') + (p.length > 1 ? (p[p.length-1][0] || '') : ''); }
+function figBySlug(sl){ for (var i=0;i<S.figures.length;i++) if (S.figures[i].slug===sl) return S.figures[i]; return null; }
+function shortName(f){ var p=f.name.split(' '); return p[p.length-1]; }
+var ACCENTS = ['var(--sun)','var(--hot)','var(--sky)','var(--orange)','var(--pink)'];
+function sm(f){ return '<span class="sm" style="--c:'+esc(f.color)+'">'+esc(initials(f.name))+'</span>'; }
+var SYM = {"wollstonecraft": "<path d=\"M22 70c8-6 18-8 30-6V30c-12-2-22 0-30 6z\" fill=\"var(--cream)\"/><path d=\"M52 64c12-2 22 0 30 6V36c-8-6-18-8-30-6z\" fill=\"var(--cream)\"/><path d=\"M60 52 84 16c-8 2-18 10-24 22z\" fill=\"var(--a)\"/><path d=\"m60 52-4 12\"/>", "truth": "<path d=\"M18 44v14l16 3V41z\" fill=\"var(--a)\"/><path d=\"m34 41 38-16v50L34 61z\" fill=\"var(--cream)\"/><path d=\"M24 61l6 18h8l-4-16\"/><path d=\"M80 38c4 4 4 20 0 24M87 30c8 8 8 32 0 40\"/>", "jacobs": "<circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"var(--cream)\"/><path d=\"M42 30h16v12h12v16H58v12H42V58H30V42h12z\" fill=\"var(--a)\"/>", "phule": "<path d=\"M16 68c12-6 24-7 34-2V32c-10-5-22-4-34 2z\" fill=\"var(--cream)\"/><path d=\"M84 68c-12-6-24-7-34-2V32c10-5 22-4 34 2z\" fill=\"var(--cream)\"/><path d=\"M50 18l3 8 8 1-6 6 2 8-7-4-7 4 2-8-6-6 8-1z\" fill=\"var(--a)\"/><path d=\"M22 76h56\"/>", "beauvoir": "<path d=\"M18 62C22 36 44 22 76 24 70 30 62 34 52 36c10 0 20 0 28 0-8 8-18 12-30 14 8 2 16 2 22 2-8 10-22 16-36 14-6 6-12 8-18 6z\" fill=\"var(--cream)\"/><path d=\"M30 60c10-6 22-12 34-20M38 66c8-4 18-8 28-14\"/><path d=\"M14 80h72\" stroke-dasharray=\"3 5\"/>", "lorde": "<path d=\"M50 14c4 14 22 20 22 42a22 22 0 0 1-44 0c0-12 6-18 12-24 0 8 4 12 8 12-2-10 0-20 2-30z\" fill=\"var(--a)\"/><path d=\"M50 52c3 6 8 8 8 16a8 8 0 0 1-16 0c0-6 5-8 8-16z\" fill=\"var(--cream)\"/>", "hooks": "<path d=\"M50 82C18 60 14 36 30 26c10-6 18 0 20 8 2-8 10-14 20-8 16 10 12 34-20 56z\" fill=\"var(--a)\"/><path d=\"M34 40c3-5 8-6 12-3\"/>", "mernissi": "<path d=\"M24 84V46c0-20 12-30 26-34 14 4 26 14 26 34v38z\" fill=\"var(--cream)\"/><path d=\"M36 84V52c0-12 6-18 14-22 8 4 14 10 14 22v32\" fill=\"var(--a)\"/><circle cx=\"50\" cy=\"20\" r=\"3\" fill=\"var(--cream)\"/>", "maathai": "<path d=\"M44 86V58c-12 0-22-8-22-20 0-10 6-16 14-18 2-8 10-12 18-10 8-2 16 4 18 12 8 2 12 10 10 18-2 10-10 16-20 16v30z\" fill=\"var(--a)\"/><path d=\"M50 86V46M50 62l-10-10M50 54l10-8\"/><path d=\"M30 86h40\"/>", "anzaldua": "<path d=\"M10 66h24V48C34 26 66 26 66 48v18h24\" fill=\"none\"/><path d=\"M34 66V48c0-14 32-14 32 0v18\" fill=\"var(--cream)\"/><path d=\"M10 72c10 6 20 6 30 0s20-6 30 0 20 6 20 0\" fill=\"var(--a)\"/><path d=\"M50 20l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z\" fill=\"var(--cream)\"/>", "angelou": "<path d=\"M22 70c0-22 14-34 32-34 10 0 18 4 22 10l12-8-4 14c0 18-14 34-36 34-14 0-26-6-26-16z\" fill=\"var(--a)\"/><circle cx=\"66\" cy=\"44\" r=\"2.4\" fill=\"#141414\"/><path d=\"m88 46 8 4-8 4\"/><path d=\"M14 22c10 4 20 4 30 0M60 16c8 3 16 3 24 0\"/>", "pankhurst": "<path d=\"M28 90V14\"/><path d=\"M28 18c14-6 24 6 40 0v32c-16 6-26-6-40 0z\" fill=\"var(--a)\"/><path d=\"M38 24l20 0M38 34h24\" stroke=\"var(--cream)\"/><path d=\"M20 90h18\"/>", "butler": "<circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"var(--cream)\"/><path d=\"M50 74V50M50 56c-10 0-16-6-16-14 10 0 16 4 16 14zM50 50c0-10 6-16 16-16 0 10-6 16-16 16z\" fill=\"var(--a)\"/><circle cx=\"24\" cy=\"22\" r=\"2.6\" fill=\"var(--a)\"/><circle cx=\"80\" cy=\"30\" r=\"2\" fill=\"var(--a)\"/><circle cx=\"74\" cy=\"12\" r=\"1.6\" fill=\"var(--a)\"/>", "varda": "<rect x=\"26\" y=\"12\" width=\"48\" height=\"76\" rx=\"4\" fill=\"var(--cream)\"/><rect x=\"34\" y=\"22\" width=\"32\" height=\"24\" fill=\"var(--a)\"/><rect x=\"34\" y=\"54\" width=\"32\" height=\"24\" fill=\"var(--cream)\"/><path d=\"M26 22h-6M26 34h-6M26 46h-6M26 58h-6M26 70h-6M74 22h6M74 34h6M74 46h6M74 58h6M74 70h6\"/><path d=\"M50 74c-8-6-10-10-6-13 3-2 6 0 6 2 0-2 3-4 6-2 4 3 2 7-6 13z\" fill=\"var(--a)\"/>", "ginsburg": "<path d=\"M50 18v64M34 82h32\"/><path d=\"M20 30h60\"/><path d=\"M20 30 8 56h24zM80 30 68 56h24z\" fill=\"var(--cream)\"/><path d=\"M8 56c2 8 22 8 24 0M68 56c2 8 22 8 24 0\" fill=\"var(--a)\"/><circle cx=\"50\" cy=\"16\" r=\"4\" fill=\"var(--a)\"/>", "greer": "<path d=\"M14 18h72a4 4 0 0 1 4 4v42a4 4 0 0 1-4 4H48L30 86V68H14a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4z\" fill=\"var(--cream)\"/><path d=\"M50 28v22\" stroke-width=\"5\"/><circle cx=\"50\" cy=\"58\" r=\"3\" fill=\"#141414\"/>"};
+var PAT = [
+ 'repeating-conic-gradient(from 0deg at 50% 70%, var(--c) 0 9deg, var(--c2) 9deg 18deg)',
+ 'radial-gradient(var(--c2) 18%, transparent 19%) 0 0/22px 22px, var(--c)',
+ 'repeating-linear-gradient(135deg, var(--c) 0 14px, var(--c2) 14px 28px)',
+ 'repeating-radial-gradient(circle at 50% 55%, var(--c) 0 12px, var(--c2) 12px 24px)'
+];
+var FRAME = ['50%','28px','50% 50% 12px 12px','22px 22px 50% 50%'];
+function art(f, i){
+  var st = '--c:'+esc(f.color)+';--c2:color-mix(in srgb,'+esc(f.color)+' 45%,#fff);--a:'+ACCENTS[i % ACCENTS.length];
+  if (f.photo_url) return '<div class="art ph" style="'+st+'"><img src="'+esc(f.photo_url)+'" alt="'+esc(f.name)+'" loading="lazy"></div>';
+  var sy = SYM[f.slug];
+  return '<div class="art" style="'+st+';background:'+PAT[i % 4]+'">'
+   +'<span class="st" style="left:12%;top:14%"></span><span class="st" style="right:14%;top:22%;width:6px;height:6px"></span>'
+   +(sy ? '<div class="sy" style="border-radius:'+FRAME[(i+1) % 4]+'"><svg viewBox="0 0 100 100" fill="none" stroke="#141414" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+sy+'</svg></div>'
+        : '<div class="sh"></div><div class="hd">'+esc(initials(f.name))+'</div>')
+   +'</div>';
+}
+var ROCKET = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c.5-3 2-4 4-4l-1-4c3-5 7-8 12-8 0 5-3 9-8 12l-4-1c0 2-1 3.500-3 5z" transform="translate(-1 1)"/><circle cx="15" cy="9" r="1.5"/></svg>';
+
+function toast(t){
+  var d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d);
+  setTimeout(function(){ d.remove(); }, 3600);
+}
+function friendlyAuthError(e){
+  var m = String((e && e.message) || '').toLowerCase();
+  if (m.indexOf('invalid login') > -1) return 'E-mailadres of wachtwoord klopt niet.';
+  if (m.indexOf('already registered') > -1 || m.indexOf('already been registered') > -1) return 'Dit e-mailadres heeft al een account. Log in.';
+  if (m.indexOf('password') > -1 && (m.indexOf('least') > -1 || m.indexOf('weak') > -1 || m.indexOf('short') > -1)) return 'Kies een wachtwoord van minimaal 6 tekens.';
+  if (m.indexOf('valid email') > -1 || m.indexOf('invalid email') > -1 || m.indexOf('email address') > -1 && m.indexOf('invalid') > -1) return 'Dit e-mailadres lijkt niet te kloppen.';
+  if (m.indexOf('rate limit') > -1 || m.indexOf('too many') > -1) return 'Even rustig aan. Probeer het over een paar minuten nog eens.';
+  if (m.indexOf('confirm') > -1) return 'Je e-mailadres is nog niet bevestigd. Kijk in je mail.';
+  return 'Er ging iets mis. Probeer het zo nog eens.';
+}
+function dayIndex(){ var d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000); }
+function quoteOfDay(){
+  var all = [];
+  S.figures.forEach(function(f){ (f.quotes || []).forEach(function(q){ all.push({q:q, f:f}); }); });
+  if (!all.length) return null;
+  return all[dayIndex() % all.length];
+}
+function roomTitle(r){
+  if (r.title) return r.title;
+  var n = (r.figs || []).map(function(s){ var f = figBySlug(s); return f ? shortName(f) : ''; }).filter(Boolean);
+  return n.length ? 'Chat met ' + n.join(', ') : 'Chat';
+}
+
+/* ---------- Schermen ---------- */
+var root = $('#app');
+
+function render(){
+  if (S.room) return; // chat beheert zichzelf
+  if (sb && !S.user) return renderAuth();
+  renderMain();
+}
+
+function renderAuth(){
+  var signup = S.authMode === 'signup';
+  root.innerHTML =
+   '<div class="top"><div class="brand">Op hun schouders<small>Leer van de vrouwen die je voorgingen</small></div></div>'
+  +'<div class="auth"><div class="card pad">'
+  +'<div class="tabs"><button data-act="mode" data-m="login" class="'+(!signup?'on':'')+'">Inloggen</button><button data-act="mode" data-m="signup" class="'+(signup?'on':'')+'">Nieuw account</button></div>'
+  +'<div id="autherr" class="err" hidden></div>'
+  +'<form id="authform" style="display:flex;flex-direction:column;gap:12px">'
+  +(signup?'<label class="f"><span>Je naam</span><input type="text" id="aname" autocomplete="name" required placeholder="Zo zien je vrienden je"></label>':'')
+  +'<label class="f"><span>E-mailadres</span><input type="email" id="amail" autocomplete="email" required></label>'
+  +'<label class="f"><span>Wachtwoord</span><input type="password" id="apass" autocomplete="'+(signup?'new-password':'current-password')+'" required minlength="6">'
+  +(signup?'<small class="hint">Minimaal 6 tekens.</small>':'')+'</label>'
+  +'<button class="btn main" id="abtn">'+(signup?'Maak account':'Log in')+'</button>'
+  +'</form></div>'
+  +'<p class="hint" style="text-align:center">Gesprekken zijn alleen te zien voor de mensen die in de chat zitten.</p></div>';
+}
+
+function renderMain(){
+  var body = '';
+  if (S.tab === 'chats') body = chatsTab();
+  else if (S.tab === 'vrouwen') body = figuresTab();
+  else body = meTab();
+  root.innerHTML =
+   '<div class="top"><div class="brand">Op hun schouders<small>Leer van de vrouwen die je voorgingen</small></div></div>'
+  +'<div class="content">'+body+'</div>'
+  +'<nav class="nav"><div>'
+  +['chats:Chats','vrouwen:Vrouwen','ik:Ik'].map(function(t){ var p=t.split(':'); return '<button data-act="tab" data-t="'+p[0]+'" class="'+(S.tab===p[0]?'on':'')+'">'+p[1]+'</button>'; }).join('')
+  +'</div></nav>';
+}
+
+function quoteCard(){
+  var qd = quoteOfDay(); if (!qd) return '';
+  return '<div class="qcard"><div class="qh">Citaat van vandaag</div><div class="qb"><blockquote>“'+esc(qd.q.text)+'”</blockquote>'
+   +'<cite><b>'+esc(qd.f.name)+'</b><br>'+esc(qd.q.source||'')+'</cite></div></div>';
+}
+
+function chatsTab(){
+  var h = quoteCard();
+  if (!sb){
+    return h + '<div class="card pad"><b class="cap">Nog niet gekoppeld</b><p>De app is nog niet verbonden met de database, dus chatten kan nog niet. Het tabblad Vrouwen werkt al. Volg het stappenplan om te koppelen.</p></div>';
+  }
+  h += '<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn main" data-act="new">Nieuwe chat</button><button class="btn" data-act="joinform">Doe mee met code</button></div>';
+  if (!S.ready) return h + '<p class="empty">Even laden…</p>';
+  if (!S.rooms.length) return h + '<div class="card empty">Nog geen chats. Start er een met een of meer vrouwen, en nodig daarna je vrienden uit.</div>';
+  h += '<h2>Jouw chats</h2>';
+  S.rooms.forEach(function(r){
+    h += '<button class="card room" data-act="open" data-id="'+esc(r.id)+'"><span class="av">'
+      + (r.figs||[]).slice(0,4).map(function(s){ var f=figBySlug(s); return f?sm(f):''; }).join('')
+      + '</span><span class="tx"><b>'+esc(roomTitle(r))+'</b><small>'+esc(r.last || 'Nog geen berichten')+'</small></span></button>';
+  });
+  return h;
+}
+
+function figuresTab(){
+  var h = '<h2>De vrouwen</h2><p class="hint" style="margin-top:-8px">Tik op een kaart voor meer. Er komen steeds meer vrouwen bij.</p><div class="grid">';
+  S.figures.forEach(function(f, i){
+    var ca=f.card_advice, ln;
+    if (ca && (ca.rocket||ca.eye||ca.heart)){
+      ln=[['rocket',ROCKET],['eye',EYE],['heart',HEART]].map(function(p){ return ca[p[0]]?'<div class="ln">'+p[1]+'<span>'+esc(ca[p[0]])+'</span></div>':''; }).join('');
+    } else {
+      ln='<div class="ln">'+ROCKET+'<span>'+esc(f.tagline||'')+'</span></div>'
+        +((f.themes||[]).length?'<div class="ln">'+EYE+'<span>'+esc((f.themes||[]).join(', '))+'</span></div>':'');
+    }
+    h += '<button class="fc" data-act="fig" data-s="'+esc(f.slug)+'"><div class="nm">'+esc(f.name)+'</div>'+art(f,i)
+      +'<div class="tg"><span class="yr">'+esc(f.years)+' · '+esc(f.country||'')+'</span>'+ln+'</div></button>';
+  });
+  return h + '</div>';
+}
+
+function meTab(){
+  var h = '';
+  if (sb && S.user){
+    h += '<div class="card pad"><b class="cap">Ingelogd als</b><p>'+esc((S.profile&&S.profile.name)||'')+'<br><small class="hint">'+esc(S.user.email||'')+'</small></p><div><button class="btn small" data-act="logout">Uitloggen</button></div></div>';
+  }
+  h += '<div class="card pad"><b class="cap">Zet de app op je beginscherm</b>'
+   +'<p><b>Android:</b> open de pagina in Chrome, tik op de drie puntjes en kies “Toevoegen aan startscherm”.</p>'
+   +'<p><b>iPhone:</b> open de pagina in Safari, tik op het deel-icoon en kies “Zet op beginscherm”.</p>'
+   +'<p class="hint">Had je al een oude snelkoppeling? Haal die eerst weg.</p></div>';
+  h += '<div class="card pad"><b class="cap">Over de vrouwen</b>'
+   +'<p>De vrouwen in deze app zijn AI-interpretaties, gebaseerd op hun ideeën en werk. Het zijn niet de echte vrouwen. Een citaat met aanhalingstekens en bron is echt. De rest is een interpretatie.</p></div>';
+  return h;
+}
+
+/* ---------- Sheets ---------- */
+function sheet(html){
+  closeSheet();
+  var v = document.createElement('div'); v.className = 'veil'; v.id = 'veil';
+  v.innerHTML = '<div class="sheet" role="dialog">'+html+'</div>';
+  v.addEventListener('click', function(e){ if (e.target === v) closeSheet(); });
+  document.body.appendChild(v);
+}
+function closeSheet(){ var v = $('#veil'); if (v) v.remove(); }
+
+var EYE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+var HEART='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg>';
+function figSheet(sl){
+  var f = figBySlug(sl); if (!f) return;
+  var i = S.figures.indexOf(f);
+  var h = '<button class="x" data-act="close">Sluiten</button><div class="card" style="overflow:hidden"><div class="nm cap" style="border-bottom:var(--line);padding:9px;text-align:center;font-size:14px">'+esc(f.name)+'</div>'+art(f,i)+'</div>'
+   +'<p class="hint" style="text-align:center">'+esc(f.years)+' · '+esc(f.country||'')+'</p>'
+   +'<p>'+esc(f.bio||'')+'</p>'
+   +'<div class="chips">'+(f.themes||[]).map(function(t){ return '<span class="chip">'+esc(t)+'</span>'; }).join('')+'</div>';
+  if (f.kind==='nu') h += '<p class="hint">Deze vrouw leeft nog. Dit is een AI-interpretatie, geen echte uitspraak van haar.</p>';
+  var ca=f.card_advice;
+  if (ca && (ca.rocket||ca.eye||ca.heart)){
+    h += '<div class="card ca"><div class="cap" style="font-size:12px;margin-bottom:6px">Advies uit de Feminist Oracles-kaart</div>'
+     +[['rocket',ROCKET],['eye',EYE],['heart',HEART]].map(function(p){ return ca[p[0]]?'<div class="tk" style="border:0;margin:0 0 6px;padding:0">'+p[1]+'<span>'+esc(ca[p[0]])+'</span></div>':''; }).join('')+'</div>';
+  }
+  (f.quotes||[]).forEach(function(q){ h += '<div class="q">“'+esc(q.text)+'”<cite>'+esc(q.source||'')+'</cite></div>'; });
+  if (sb && S.user && S.profile && S.profile.is_admin){
+    h += '<label class="btn" style="display:block;text-align:center;margin-top:10px;cursor:pointer">Foto kiezen<input type="file" accept="image/*" id="phfile" data-s="'+esc(f.slug)+'" hidden></label>'
+      +(f.photo_url?'<button class="btn" data-act="phdel" data-s="'+esc(f.slug)+'">Foto weghalen</button>':'')
+      +'<p class="hint">Alleen jij ziet deze knop. Vrienden zien de foto wel. Gebruik een foto waar je het recht toe hebt.</p>';
+  }
+  if (sb && S.user) h += '<button class="btn main" data-act="newwith" data-s="'+esc(f.slug)+'">Chat met '+esc(shortName(f))+'</button>';
+  sheet(h);
+}
+
+var picked = {};
+function newSheet(pre){
+  picked = {}; if (pre) picked[pre] = true;
+  var h = '<button class="x" data-act="close">Sluiten</button><h3>Nieuwe chat</h3>'
+   +'<label class="f"><span>Naam van de chat (hoeft niet)</span><input type="text" id="ntitle" maxlength="60" placeholder="Bijvoorbeeld: Gedoe op werk"></label>'
+   +'<div><span class="cap" style="font-size:12px">Wie wil je erbij?</span><div class="chips" style="margin-top:8px">'
+   + S.figures.map(function(f){ return '<button class="chip pick '+(picked[f.slug]?'on':'')+'" data-act="pick" data-s="'+esc(f.slug)+'">'+esc(f.name)+'</button>'; }).join('')
+   +'</div></div><p class="hint">Je kunt later vrouwen toevoegen en vrienden uitnodigen.</p>'
+   +'<div id="nerr" class="err" hidden></div><button class="btn main" data-act="create">Start chat</button>';
+  sheet(h);
+}
+function joinSheet(code){
+  sheet('<button class="x" data-act="close">Sluiten</button><h3>Doe mee met een code</h3>'
+   +'<label class="f"><span>Code van je vriend(in)</span><input type="text" id="jcode" maxlength="12" autocapitalize="characters" autocomplete="off" value="'+esc(code||'')+'" placeholder="Bijvoorbeeld 4F9A2C"></label>'
+   +'<div id="jerr" class="err" hidden></div><button class="btn main" data-act="join">Doe mee</button>');
+}
+
+/* ---------- Gegevens laden ---------- */
+async function loadFigures(){
+  try{
+    var r = await sb.from('figures').select('*').order('sort');
+    if (!r.error && r.data && r.data.length){
+      S.figures = r.data.map(function(f){ return {slug:f.slug,name:f.name,years:f.years,country:f.country,tagline:f.tagline,themes:f.themes||[],bio:f.bio,photo_url:f.photo_url||null,quotes:f.quotes||[],card_advice:f.card_advice||null,kind:f.kind||'historisch',color:f.color||'#E8409A'}; });
+    }
+  }catch(e){}
+}
+async function loadRooms(){
+  try{
+    var r = await sb.from('rooms').select('id,title,invite_code,created_at,room_figures(figure_slug)').order('created_at',{ascending:false});
+    if (r.error) throw r.error;
+    var rooms = (r.data||[]).map(function(x){ return {id:x.id,title:x.title,code:x.invite_code,created:x.created_at,figs:(x.room_figures||[]).map(function(y){return y.figure_slug;}),last:'',lastAt:x.created_at}; });
+    if (rooms.length){
+      var ids = rooms.map(function(x){return x.id;});
+      var m = await sb.from('messages').select('room_id,content,created_at').in('room_id',ids).order('created_at',{ascending:false}).limit(300);
+      var seen = {};
+      (m.data||[]).forEach(function(x){ if (!seen[x.room_id]){ seen[x.room_id]=1; rooms.forEach(function(rm){ if (rm.id===x.room_id){ rm.last=x.content; rm.lastAt=x.created_at; } }); } });
+    }
+    rooms.sort(function(a,b){ return String(b.lastAt).localeCompare(String(a.lastAt)); });
+    S.rooms = rooms;
+  }catch(e){ S.rooms = []; toast('Je chats laden lukt niet. Probeer het zo nog eens.'); }
+  S.ready = true;
+}
+async function afterLogin(){
+  var u = S.user;
+  try{
+    var p = await sb.from('profiles').select('*').eq('id',u.id).maybeSingle();
+    S.profile = p.data || {name: (u.user_metadata && u.user_metadata.name) || u.email};
+  }catch(e){ S.profile = {name: u.email}; }
+  await loadFigures();
+  await loadRooms();
+  var code = null; try{ code = sessionStorage.getItem('joincode'); }catch(e){}
+  if (code){ try{ sessionStorage.removeItem('joincode'); }catch(e){} await doJoin(code, true); }
+  else render();
+}
+
+/* ---------- Chat ---------- */
+async function openRoom(id){
+  var base = null; S.rooms.forEach(function(r){ if (r.id===id) base = r; });
+  S.room = {id:id, title: base ? base.title : null, code: base ? base.code : ''};
+  S.msgs = []; S.ids = {}; S.members = {}; S.roomFigs = base ? base.figs.slice() : [];
+  S.ask = true;
+  drawChatShell();
+  try{
+    var r = await Promise.all([
+      sb.from('rooms').select('id,title,invite_code').eq('id',id).maybeSingle(),
+      sb.from('room_members').select('user_id,profiles(name)').eq('room_id',id),
+      sb.from('room_figures').select('figure_slug').eq('room_id',id)
+    ]);
+    if (r[0].data){ S.room.title = r[0].data.title; S.room.code = r[0].data.invite_code; }
+    (r[1].data||[]).forEach(function(m){ S.members[m.user_id] = (m.profiles && m.profiles.name) || 'Iemand'; });
+    S.roomFigs = (r[2].data||[]).map(function(x){return x.figure_slug;});
+  }catch(e){}
+  headInfo();
+  await fetchMessages();
+  subscribe();
+}
+function headInfo(){
+  var t = $('#ctitle'); if (!t) return;
+  t.textContent = roomTitle({title:S.room.title, figs:S.roomFigs});
+  var people = Object.keys(S.members).map(function(k){ return k===S.user.id ? 'Jij' : S.members[k]; });
+  var names = S.roomFigs.map(function(s){ var f=figBySlug(s); return f?shortName(f):''; }).filter(Boolean);
+  $('#cmeta').textContent = [people.join(', '), names.join(', ')].filter(Boolean).join(' · ');
+}
+function drawChatShell(){
+  root.innerHTML =
+   '<div class="chat"><header class="chat-top"><button class="ib" data-act="back" aria-label="Terug">←</button>'
+  +'<div class="ct"><b id="ctitle"></b><small id="cmeta"></small></div><button class="ib" data-act="info">Info</button></header>'
+  +'<div id="list" class="list"><div class="note">Dit zijn AI-interpretaties, niet de echte vrouwen. Een citaat met bron is echt, de rest is een interpretatie van hun ideeën.</div></div>'
+  +'<div id="typing" class="typing" hidden></div>'
+  +'<form id="composer" class="composer"><button type="button" class="sw" id="sw" data-act="toggleask" aria-pressed="true"><i></i><span id="swt">Vrouwen reageren</span></button>'
+  +'<div class="inp"><textarea id="msg" rows="1" placeholder="Vertel waar je mee zit…"></textarea><button class="send" aria-label="Verstuur">↑</button></div></form></div>';
+  headInfo();
+}
+async function fetchMessages(){
+  try{
+    var r = await sb.from('messages').select('*').eq('room_id',S.room.id).order('created_at').limit(400);
+    if (r.error) throw r.error;
+    (r.data||[]).forEach(function(m){ addMsg(m, true); });
+    scrollEnd(true);
+  }catch(e){ toast('Berichten laden lukt niet. Probeer het zo nog eens.'); }
+}
+function nameOf(uid){ return S.members[uid] || 'Iemand'; }
+function msgHTML(m){
+  if (m.figure_slug){
+    var f = figBySlug(m.figure_slug) || {name:m.figure_slug,color:'#999'};
+    return '<div class="m fig">'+sm(f)+'<div class="bub"><span class="who">'+esc(f.name)+'<i>AI-interpretatie</i></span>'+br(m.content)
+      +(m.quote?'<div class="q">“'+esc(m.quote)+'”<cite>'+esc(m.quote_source||'')+'</cite></div>':'')
+      +(m.takeaway?'<div class="tk">'+ROCKET+'<span>'+esc(m.takeaway)+'</span></div>':'')+'</div></div>';
+  }
+  var me = m.user_id === S.user.id;
+  return '<div class="m '+(me?'me':'')+'"><div class="bub">'+(me?'':'<span class="who">'+esc(nameOf(m.user_id))+'</span>')+br(m.content)+'</div></div>';
+}
+function addMsg(m, quiet){
+  if (!m || S.ids[m.id]) return;
+  S.ids[m.id] = 1; S.msgs.push(m);
+  var l = $('#list'); if (!l) return;
+  var near = l.scrollHeight - l.scrollTop - l.clientHeight < 160;
+  l.insertAdjacentHTML('beforeend', msgHTML(m));
+  if (m.figure_slug) showTyping(false);
+  if (!quiet && (near || m.user_id === S.user.id)) scrollEnd();
+}
+function scrollEnd(){ var l = $('#list'); if (l) l.scrollTop = l.scrollHeight; }
+function showTyping(on, who){
+  var t = $('#typing'); if (!t) return;
+  clearTimeout(S.typingTimer);
+  if (!on){ t.hidden = true; return; }
+  var names = S.roomFigs.map(function(s){ var f=figBySlug(s); return f?shortName(f):''; }).filter(Boolean);
+  t.textContent = (names.length === 1 ? names[0] + ' denkt na…' : 'De vrouwen denken na…');
+  t.hidden = false; scrollEnd();
+  S.typingTimer = setTimeout(function(){ t.hidden = true; }, 40000);
+}
+function subscribe(){
+  unsubscribe();
+  var rid = S.room.id;
+  S.channel = sb.channel('room-'+rid).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'room_id=eq.'+rid}, async function(p){
+    var m = p.new; if (!m || S.ids[m.id]) return;
+    if (m.user_id && !S.members[m.user_id]){
+      try{ var r = await sb.from('profiles').select('name').eq('id',m.user_id).maybeSingle(); S.members[m.user_id] = (r.data&&r.data.name)||'Iemand'; headInfo(); }catch(e){}
+    }
+    addMsg(m);
+    if (m.user_id && m.user_id !== S.user.id && m.asked_ai) showTyping(true);
+  }).subscribe();
+}
+function unsubscribe(){ if (S.channel){ try{ sb.removeChannel(S.channel); }catch(e){} S.channel = null; } }
+function leaveView(){
+  unsubscribe(); showTyping(false); S.room = null; closeSheet();
+  loadRooms().then(function(){ if (!S.room) render(); });
+  render();
+}
+
+function errText(code){
+  if (code === 'limit') return 'Je hebt vandaag veel gevraagd. Morgen is er weer ruimte.';
+  if (code === 'no_key') return 'De vrouwen zijn nog niet aangesloten. Check het stappenplan (de sleutel ontbreekt).';
+  return 'De vrouwen zijn even stil. Probeer het zo nog eens.';
+}
+async function askAI(){
+  showTyping(true);
+  var code = '';
+  try{
+    var r = await sb.functions.invoke('chat', {body:{room_id:S.room.id}});
+    if (r.error){
+      try{ var j = await r.error.context.json(); code = j.error; }catch(e){ code = 'x'; }
+      showTyping(false); toast(errText(code));
+    }
+  }catch(e){ showTyping(false); toast(errText('x')); }
+  await fetchMessagesMerge();
+}
+async function fetchMessagesMerge(){
+  if (!S.room) return;
+  try{
+    var r = await sb.from('messages').select('*').eq('room_id',S.room.id).order('created_at').limit(400);
+    (r.data||[]).forEach(function(m){ if (!S.ids[m.id]) addMsg(m); });
+  }catch(e){}
+}
+async function send(){
+  var ta = $('#msg'); if (!ta || S.sending) return;
+  var text = ta.value.trim(); if (!text) return;
+  S.sending = true; ta.value = ''; ta.style.height = 'auto';
+  var ask = S.ask;
+  var r = await sb.from('messages').insert({room_id:S.room.id,user_id:S.user.id,content:text,asked_ai:ask}).select('*').single();
+  if (r.error || !r.data){ toast('Versturen lukt niet. Probeer het nog eens.'); ta.value = text; S.sending = false; return; }
+  addMsg(r.data);
+  if (ask) await askAI();
+  S.sending = false;
+}
+
+function infoSheet(){
+  var link = location.origin + location.pathname + '?code=' + S.room.code;
+  var people = Object.keys(S.members).map(function(k){ return esc(k===S.user.id ? 'Jij' : S.members[k]); }).join(', ');
+  var h = '<button class="x" data-act="close">Sluiten</button><h3>Vrienden uitnodigen</h3>'
+   +'<div class="code">'+esc(S.room.code)+'</div>'
+   +'<p class="hint" style="text-align:center">Je vriend(in) maakt een account en kiest “Doe mee met code”. Of stuur de link.</p>'
+   +'<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn main" data-act="share">Deel uitnodiging</button><button class="btn" data-act="copy">Kopieer link</button></div>'
+   +'<p><b class="cap" style="font-size:12px">Wie zitten erin</b><br>'+people+'</p>'
+   +'<div><b class="cap" style="font-size:12px">De vrouwen</b><div class="chips" style="margin-top:8px">'
+   + S.figures.map(function(f){ var inn = S.roomFigs.indexOf(f.slug)>-1; return '<button class="chip pick '+(inn?'on':'')+'" '+(inn?'disabled':'data-act="addfig" data-s="'+esc(f.slug)+'"')+'>'+esc(f.name)+(inn?'':' +')+'</button>'; }).join('')
+   +'</div></div>'
+   +'<div><button class="link" data-act="leave">Chat verlaten</button></div>';
+  sheet(h);
+  S._link = link;
+}
+
+/* ---------- Acties ---------- */
+async function doJoin(code, silent){
+  code = String(code||'').trim();
+  if (!code){ return; }
+  var r = await sb.rpc('join_room', {p_code: code});
+  if (r.error){
+    var e = $('#jerr');
+    var msg = String(r.error.message||'').indexOf('onbekend') > -1 ? 'Deze code kennen we niet. Check of je hem goed hebt overgetypt.' : 'Meedoen lukt niet. Probeer het zo nog eens.';
+    if (e){ e.textContent = msg; e.hidden = false; } else toast(msg);
+    if (silent) render();
+    return;
+  }
+  closeSheet(); await loadRooms(); await openRoom(r.data);
+}
+
+function shrink(file, max){
+  return new Promise(function(res, rej){
+    var im = new Image(), u = URL.createObjectURL(file);
+    im.onload = function(){
+      var k = Math.min(1, max/Math.max(im.width, im.height)), c = document.createElement('canvas');
+      c.width = Math.round(im.width*k); c.height = Math.round(im.height*k);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(u);
+      c.toBlob(function(b){ b ? res(b) : rej(new Error('geen plaatje')); }, 'image/jpeg', 0.85);
+    };
+    im.onerror = function(){ rej(new Error('geen plaatje')); }; im.src = u;
+  });
+}
+async function setPhoto(slug, file){
+  try{
+    var blob = await shrink(file, 640), path = slug+'.jpg';
+    var up = await sb.storage.from('figure-photos').upload(path, blob, {upsert:true, contentType:'image/jpeg'});
+    if (up.error) throw up.error;
+    var url = sb.storage.from('figure-photos').getPublicUrl(path).data.publicUrl + '?v=' + Date.now();
+    var r = await sb.rpc('set_figure_photo', {fslug:slug, url:url}); if (r.error) throw r.error;
+    var f = figBySlug(slug); if (f) f.photo_url = url;
+    closeSheet(); render(); toast('Foto staat erin.');
+  }catch(e){ toast('Foto opslaan lukte niet. Controleer of je beheerder bent en supabase.sql is gedraaid.'); }
+}
+document.addEventListener('change', function(e){
+  var t = e.target; if (t && t.id === 'phfile' && t.files && t.files[0]) setPhoto(t.dataset.s, t.files[0]);
+});
+document.addEventListener('click', async function(e){
+  var a = e.target.closest('[data-act]'); if (!a) return;
+  var act = a.dataset.act;
+  try{
+  if (act === 'tab'){ S.tab = a.dataset.t; render(); window.scrollTo(0,0); }
+  else if (act === 'close'){ closeSheet(); }
+  else if (act === 'mode'){ S.authMode = a.dataset.m; render(); }
+  else if (act === 'fig'){ figSheet(a.dataset.s); }
+  else if (act === 'phdel'){
+    var r2 = await sb.rpc('set_figure_photo', {fslug:a.dataset.s, url:null});
+    if (r2.error) toast('Weghalen lukte niet.'); else { var ff = figBySlug(a.dataset.s); if (ff) ff.photo_url = null; closeSheet(); render(); }
+  }
+  else if (act === 'new'){ newSheet(); }
+  else if (act === 'newwith'){ newSheet(a.dataset.s); }
+  else if (act === 'joinform'){ joinSheet(); }
+  else if (act === 'pick'){ var s = a.dataset.s; picked[s] = !picked[s]; a.classList.toggle('on', !!picked[s]); }
+  else if (act === 'create'){
+    var sel = Object.keys(picked).filter(function(k){return picked[k];});
+    var er = $('#nerr');
+    if (!sel.length){ er.textContent = 'Kies minstens één vrouw.'; er.hidden = false; return; }
+    a.disabled = true;
+    var r = await sb.rpc('create_room', {p_title: ($('#ntitle').value||''), p_figures: sel});
+    if (r.error){ er.textContent = 'Chat starten lukt niet. Probeer het zo nog eens.'; er.hidden = false; a.disabled = false; return; }
+    closeSheet(); await loadRooms(); await openRoom(r.data);
+  }
+  else if (act === 'join'){ await doJoin($('#jcode').value); }
+  else if (act === 'open'){ await openRoom(a.dataset.id); }
+  else if (act === 'back'){ leaveView(); }
+  else if (act === 'info'){ infoSheet(); }
+  else if (act === 'toggleask'){
+    S.ask = !S.ask; a.setAttribute('aria-pressed', S.ask ? 'true' : 'false');
+    $('#swt').textContent = S.ask ? 'Vrouwen reageren' : 'Alleen vrienden';
+  }
+  else if (act === 'share'){
+    var text = 'Doe mee met mijn chat in "Op hun schouders". Maak een account en kies "Doe mee met code": ' + S.room.code;
+    if (navigator.share){ try{ await navigator.share({title:'Op hun schouders', text:text, url:S._link}); }catch(x){} }
+    else { try{ await navigator.clipboard.writeText(text + '\n' + S._link); toast('Uitnodiging gekopieerd.'); }catch(x){ toast('Kopiëren lukt niet. Geef de code door: '+S.room.code); } }
+  }
+  else if (act === 'copy'){ try{ await navigator.clipboard.writeText(S._link); toast('Link gekopieerd.'); }catch(x){ toast('Kopiëren lukt niet. Geef de code door: '+S.room.code); } }
+  else if (act === 'addfig'){
+    var rr = await sb.rpc('add_figures', {rid: S.room.id, p_figures:[a.dataset.s]});
+    if (rr.error){ toast('Toevoegen lukt niet. Probeer het zo nog eens.'); return; }
+    S.roomFigs.push(a.dataset.s); headInfo(); infoSheet();
+  }
+  else if (act === 'leave'){
+    if (!confirm('Weet je zeker dat je deze chat wilt verlaten?')) return;
+    await sb.rpc('leave_room', {rid: S.room.id}); closeSheet(); leaveView();
+  }
+  else if (act === 'logout'){ await sb.auth.signOut(); }
+  }catch(err){ console.error(err); toast('Er ging iets mis. Probeer het zo nog eens.'); }
+});
+
+document.addEventListener('submit', async function(e){
+  e.preventDefault();
+  if (e.target.id === 'composer'){ send(); return; }
+  if (e.target.id === 'authform'){
+    var signup = S.authMode === 'signup';
+    var btn = $('#abtn'), er = $('#autherr');
+    er.hidden = true; btn.disabled = true;
+    var email = $('#amail').value.trim(), pass = $('#apass').value;
+    try{
+      var r;
+      if (signup){
+        var name = $('#aname').value.trim();
+        r = await sb.auth.signUp({email:email, password:pass, options:{data:{name:name}}});
+        if (!r.error && !r.data.session){ er.className = 'ok'; er.textContent = 'Bijna klaar. Kijk in je mail om je account te bevestigen.'; er.hidden = false; btn.disabled = false; return; }
+      } else {
+        r = await sb.auth.signInWithPassword({email:email, password:pass});
+      }
+      if (r.error){ er.className = 'err'; er.textContent = friendlyAuthError(r.error); er.hidden = false; btn.disabled = false; }
+    }catch(x){ er.className = 'err'; er.textContent = friendlyAuthError(x); er.hidden = false; btn.disabled = false; }
+  }
+});
+document.addEventListener('keydown', function(e){
+  if (e.target && e.target.id === 'msg' && e.key === 'Enter' && (e.metaKey || e.ctrlKey)){ e.preventDefault(); send(); }
+});
+document.addEventListener('input', function(e){
+  if (e.target && e.target.id === 'msg'){ e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 140) + 'px'; }
+});
+
+/* ---------- Start ---------- */
+(function init(){
+  try{
+    var p = new URLSearchParams(location.search).get('code');
+    if (p){ sessionStorage.setItem('joincode', p); history.replaceState(null,'',location.pathname); }
+  }catch(e){}
+  if (!sb){ render(); return; }
+  var started = false;
+  sb.auth.onAuthStateChange(function(ev, session){
+    if (session && session.user){
+      if (S.user && S.user.id === session.user.id && started) return;
+      S.user = session.user; started = true;
+      setTimeout(afterLogin, 0);
+    } else {
+      S.user = null; S.profile = null; S.rooms = []; S.ready = false; S.room = null; started = false; unsubscribe(); render();
+    }
+  });
+  sb.auth.getSession().then(function(r){ if (!r.data.session) render(); });
+})();
+})();
+</script>
+</body>
+</html>
