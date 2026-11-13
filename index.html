@@ -692,7 +692,7 @@ document.addEventListener('click', async function(e){
     if (!sel.length){ er.textContent = 'Kies minstens één vrouw.'; er.hidden = false; return; }
     a.disabled = true;
     var r = await sb.rpc('create_room', {p_title: ($('#ntitle').value||''), p_figures: sel});
-    if (r.error){ er.textContent = 'Chat starten lukt niet. Probeer het zo nog eens.'; er.hidden = false; a.disabled = false; return; }
+    if (r.error){ er.textContent = 'Chat starten lukt niet. Probeer het zo nog eens.' + ' (Foutcode: ' + (r.error.code||'?') + ' – ' + (r.error.message||'onbekend') + ')'; er.hidden = false; a.disabled = false; return; }
     closeSheet(); await loadRooms(); await openRoom(r.data);
   }
   else if (act === 'join'){ await doJoin($('#jcode').value); }
