@@ -59,6 +59,12 @@ h2{font-family:var(--caps);text-transform:uppercase;letter-spacing:.08em;font-si
 .qv{font-size:17px;margin:0 0 10px}
 .opts{display:grid;gap:8px}
 .opt{text-align:left;width:100%}
+.opt.goed{background:#DFF3E6;border-color:#1F7A4D}
+.opt.fout{background:#FBE3E3;border-color:#A8322C}
+.opt.uit{opacity:.5}
+.opt i{float:right;font-style:normal;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--caps);opacity:.75;margin-left:8px}
+.fb{margin:10px 0;font-size:15px}
+.fb.ok{color:#1F7A4D}
 .qr{border-top:1px solid rgba(20,20,20,.15);padding:9px 0;font-size:14px}
 .qr b{display:block}
 .qr i{display:block;opacity:.75;font-size:13px;margin:2px 0}
@@ -450,7 +456,7 @@ function quizQuestions(day){
 async function loadQuiz(){
   if (!sb || !S.user) return;
   var day = today();
-  S.quiz = {day: day, vragen: quizQuestions(day), given: [], points: 0};
+  S.quiz = {day: day, vragen: quizQuestions(day), given: [], points: 0, reveal: null};
   try{
     var r = await sb.from('quiz_days').select('*').eq('user_id', S.user.id).eq('day', day).maybeSingle();
     if (r.data){ S.quiz.given = r.data.given || []; S.quiz.points = r.data.points || 0; }
@@ -466,6 +472,7 @@ async function answer(i, keuze){
   S.quizBusy = true;
   q.given.push(keuze);
   if (keuze === q.vragen[i].goed) q.points += 3;
+  q.reveal = i;
   render();
   try{
     await sb.from('quiz_days').upsert({user_id:S.user.id, day:q.day, points:q.points, given:q.given}, {onConflict:'user_id,day'});
@@ -479,9 +486,19 @@ function quizTab(){
   if (!sb || !S.user) return '<div class="card pad"><p>Log in om mee te doen met de quiz.</p></div>';
   if (!S.quiz){ loadQuiz(); return '<div class="card pad"><p class="hint">Even laden…</p></div>'; }
   var q = S.quiz, i = q.given.length, h = '';
-  h += '<div class="card pad"><b class="cap">Vraag van de dag</b><p class="hint">Drie vragen per dag, drie punten per goed antwoord. Iedereen krijgt dezelfde vragen.</p>';
+  h += '<div class="card pad"><b class="cap">Vraag van de dag</b>';
   if (!q.vragen.length){ h += '<p>Vandaag zijn er geen vragen.</p></div>'; return h; }
-  if (i < q.vragen.length){
+  if (q.reveal !== null && q.reveal !== undefined){
+    var rv = q.vragen[q.reveal], mijn = q.given[q.reveal], goed = mijn === rv.goed, laatste = q.given.length === q.vragen.length;
+    h += '<p class="qnum">Vraag '+(q.reveal+1)+' van '+q.vragen.length+'</p><p class="qv">'+esc(rv.vraag)+'</p>'
+      + (rv.extra ? '<div class="q">'+esc(rv.extra)+'</div>' : '')
+      + '<div class="opts">'+rv.opties.map(function(o){
+          var cl = o === rv.goed ? ' goed' : (o === mijn ? ' fout' : ' uit');
+          return '<div class="btn opt'+cl+'">'+esc(o)+(o === rv.goed ? '<i>goed</i>' : (o === mijn ? '<i>jouw antwoord</i>' : ''))+'</div>';
+        }).join('')+'</div>'
+      + '<p class="fb '+(goed?'ok':'')+'">'+(goed ? 'Goed, drie punten erbij.' : 'Helaas. Het goede antwoord is '+esc(rv.goed)+'.')+'</p>'
+      + '<button class="btn main" data-act="qnext">'+(laatste ? 'Bekijk je score' : 'Volgende vraag')+'</button>';
+  } else if (i < q.vragen.length){
     var v = q.vragen[i];
     h += '<p class="qnum">Vraag '+(i+1)+' van '+q.vragen.length+'</p><p class="qv">'+esc(v.vraag)+'</p>'
       + (v.extra ? '<div class="q">'+esc(v.extra)+'</div>' : '')
@@ -499,7 +516,6 @@ function quizTab(){
   h += '<div class="card pad"><b class="cap">Scorebord deze maand</b>';
   if (!S.board || !S.board.length) h += '<p class="hint">Nog niemand heeft punten deze maand.</p>';
   else h += '<ol class="sb">'+S.board.map(function(x){ return '<li'+(x.is_me?' class="me"':'')+'><span>'+esc(x.name)+'</span><b>'+x.points+'</b></li>'; }).join('')+'</ol>';
-  h += '<p class="hint">Op de 1e van de maand begint iedereen weer op nul.</p>';
   if (S.winner) h += '<p class="win">Winnaar van vorige maand: <b>'+esc(S.winner.name)+'</b> met '+S.winner.points+' punten.</p>';
   h += '</div>';
   return h;
@@ -846,6 +862,7 @@ document.addEventListener('click', async function(e){
   try{
   if (act === 'tab'){ S.tab = a.dataset.t; if (S.tab === 'quiz') loadQuiz(); render(); window.scrollTo(0,0); }
   else if (act === 'qa'){ await answer(Number(a.dataset.i), a.dataset.o); }
+  else if (act === 'qnext'){ if (S.quiz){ S.quiz.reveal = null; render(); } }
   else if (act === 'close'){ closeSheet(); }
   else if (act === 'mode'){ S.authMode = a.dataset.m; render(); }
   else if (act === 'like'){ await toggleLike(a.dataset.id); }
