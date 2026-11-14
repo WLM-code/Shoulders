@@ -54,6 +54,9 @@ button{cursor:pointer;background:none;border:0}
 .content{flex:1;padding:8px 16px 110px;display:flex;flex-direction:column;gap:14px}
 h2{font-family:var(--caps);text-transform:uppercase;letter-spacing:.08em;font-size:15px;margin:6px 2px 0}
 
+.nav button.dot{position:relative}
+.nav button.dot:after{content:"";position:absolute;top:7px;right:calc(50% - 26px);width:8px;height:8px;border-radius:50%;background:#D62828;border:1px solid var(--ink)}
+.nw{display:inline-block;width:9px;height:9px;border-radius:50%;background:#D62828;border:1px solid var(--ink);margin-left:7px;vertical-align:middle}
 /* quiz */
 .qnum{font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-size:12px;opacity:.7;margin:10px 0 2px}
 .qv{font-size:17px;margin:0 0 10px}
@@ -392,7 +395,7 @@ function chatsTab(){
   S.rooms.forEach(function(r){
     h += '<button class="card room" data-act="open" data-id="'+esc(r.id)+'"><span class="av">'
       + (r.figs||[]).slice(0,4).map(function(s){ var f=figBySlug(s); return f?sm(f):''; }).join('')
-      + '</span><span class="tx"><b>'+esc(roomTitle(r))+'</b><small>'+esc(r.last || 'Nog geen berichten')+'</small></span></button>';
+      + '</span><span class="tx"><b>'+esc(roomTitle(r))+(r.unread?'<em class="nw"></em>':'')+'</b><small>'+esc(r.last || 'Nog geen berichten')+'</small></span></button>';
   });
   return h;
 }
@@ -411,6 +414,24 @@ function figuresTab(){
       +'<div class="tg"><span class="yr">'+esc(f.years)+' · '+esc(f.country||'')+'</span>'+ln+'</div></button>';
   });
   return h + '</div>';
+}
+
+/* ---------- ongelezen berichten ---------- */
+function seenKey(){ return 'ohs-seen-' + ((S.user && S.user.id) || 'x'); }
+function seenMap(){ try{ return JSON.parse(localStorage.getItem(seenKey()) || '{}'); }catch(e){ return {}; } }
+function markSeen(roomId){
+  try{ var m = seenMap(); m[roomId] = new Date().toISOString(); localStorage.setItem(seenKey(), JSON.stringify(m)); }catch(e){}
+  S.rooms.forEach(function(r){ if (r.id === roomId) r.unread = false; });
+  setBadge();
+}
+function unreadCount(){ var n = 0; S.rooms.forEach(function(r){ if (r.unread) n++; }); return n; }
+function setBadge(){
+  var n = unreadCount();
+  try{
+    if (navigator.setAppBadge){ n ? navigator.setAppBadge(n) : navigator.clearAppBadge(); }
+  }catch(e){}
+  var t = document.querySelector('.nav button[data-t="chats"]');
+  if (t) t.classList.toggle('dot', n > 0);
 }
 
 /* ---------- dagelijkse quiz ---------- */
@@ -603,12 +624,17 @@ async function loadRooms(){
     var rooms = (r.data||[]).map(function(x){ return {id:x.id,title:x.title,code:x.invite_code,created:x.created_at,figs:(x.room_figures||[]).map(function(y){return y.figure_slug;}),last:'',lastAt:x.created_at}; });
     if (rooms.length){
       var ids = rooms.map(function(x){return x.id;});
-      var m = await sb.from('messages').select('room_id,content,created_at').in('room_id',ids).order('created_at',{ascending:false}).limit(300);
+      var m = await sb.from('messages').select('room_id,content,created_at,user_id').in('room_id',ids).order('created_at',{ascending:false}).limit(300);
       var seen = {};
-      (m.data||[]).forEach(function(x){ if (!seen[x.room_id] && String(x.content||'').trim()){ seen[x.room_id]=1; rooms.forEach(function(rm){ if (rm.id===x.room_id){ rm.last=x.content; rm.lastAt=x.created_at; } }); } });
+      (m.data||[]).forEach(function(x){ if (!seen[x.room_id] && String(x.content||'').trim()){ seen[x.room_id]=1; rooms.forEach(function(rm){ if (rm.id===x.room_id){ rm.last=x.content; rm.lastBy=x.user_id; rm.lastAt=x.created_at; } }); } });
     }
+    var seenAt = seenMap();
+    rooms.forEach(function(rm){
+      rm.unread = !!(rm.lastAt && rm.lastBy && rm.lastBy !== (S.user && S.user.id) && (!seenAt[rm.id] || String(rm.lastAt) > String(seenAt[rm.id])));
+    });
     rooms.sort(function(a,b){ return String(b.lastAt).localeCompare(String(a.lastAt)); });
     S.rooms = rooms;
+    setBadge();
   }catch(e){ S.rooms = []; toast('Je chats laden lukt niet. Probeer het zo nog eens.'); }
   S.ready = true;
 }
@@ -631,6 +657,7 @@ async function openRoom(id){
   S.room = {id:id, title: base ? base.title : null, code: base ? base.code : ''};
   S.msgs = []; S.ids = {}; S.likes = {}; S.members = {}; S.roomFigs = base ? base.figs.slice() : [];
   S.ask = true;
+  markSeen(id);
   drawChatShell();
   try{
     var r = await Promise.all([
@@ -853,6 +880,11 @@ async function setPhoto(slug, file){
     closeSheet(); render(); toast('Foto staat erin.');
   }catch(e){ toast('Foto opslaan lukte niet. Controleer of je beheerder bent en supabase.sql is gedraaid.'); }
 }
+document.addEventListener('visibilitychange', function(){
+  if (document.visibilityState !== 'visible' || !sb || !S.user) return;
+  if (S.room){ markSeen(S.room.id); return; }
+  loadRooms().then(function(){ if (!S.room && S.tab === 'chats') render(); });
+});
 document.addEventListener('change', function(e){
   var t = e.target; if (t && t.id === 'phfile' && t.files && t.files[0]) setPhoto(t.dataset.s, t.files[0]);
 });
