@@ -122,7 +122,9 @@ h2{font-family:var(--caps);text-transform:uppercase;letter-spacing:.08em;font-si
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:var(--line);border-radius:999px;padding:5px 11px;font-size:13.5px;background:var(--cream)}
 .chip.pick{padding:8px 13px;font-size:15px}
-.chip.on{background:var(--sun);font-weight:600}
+.chip.on{background:var(--sun);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.chip .rm{font:inherit;font-size:17px;line-height:1;padding:0 2px;opacity:.6;background:none;border:0}
+.chip .rm:hover{opacity:1}
 
 /* chatlijst */
 .room{display:flex;gap:12px;align-items:center;padding:12px;text-align:left;width:100%}
@@ -652,6 +654,27 @@ async function afterLogin(){
 }
 
 /* ---------- Chat ---------- */
+function idleDays(){
+  if (!S.msgs.length) return 0;
+  var last = S.msgs[S.msgs.length-1];
+  return (Date.now() - new Date(last.created_at).getTime()) / 86400000;
+}
+async function maybeNudge(){
+  try{
+    if (!sb || !S.user || !S.room || !S.roomFigs.length) return;
+    var last = S.msgs[S.msgs.length-1];
+    if (!last || last.react === 'nudge') return;
+    if (idleDays() < 2) return;
+    var r = await sb.functions.invoke('chat', {body:{room_id: S.room.id, mode:'nudge'}});
+    if (r && r.data && r.data.inserted) setTimeout(refreshMsgs, 600);
+  }catch(e){}
+}
+async function refreshMsgs(){
+  try{
+    var r = await sb.from('messages').select('*').eq('room_id', S.room.id).order('created_at').limit(200);
+    (r.data||[]).forEach(function(m){ addMsg(m); });
+  }catch(e){}
+}
 async function openRoom(id){
   var base = null; S.rooms.forEach(function(r){ if (r.id===id) base = r; });
   S.room = {id:id, title: base ? base.title : null, code: base ? base.code : ''};
@@ -697,6 +720,7 @@ async function fetchMessages(){
     (r.data||[]).forEach(function(m){ addMsg(m, true); });
     await fetchLikes();
     scrollEnd(true);
+    maybeNudge();
   }catch(e){ toast('Berichten laden lukt niet. Probeer het zo nog eens.'); }
 }
 async function fetchLikes(){
@@ -837,7 +861,9 @@ function infoSheet(){
    +'<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn main" data-act="share">Deel uitnodiging</button><button class="btn" data-act="copy">Kopieer link</button></div>'
    +'<p><b class="cap" style="font-size:12px">Wie zitten erin</b><br>'+people+'</p>'
    +'<div><b class="cap" style="font-size:12px">De vrouwen</b><div class="chips" style="margin-top:8px">'
-   + S.figures.map(function(f){ var inn = S.roomFigs.indexOf(f.slug)>-1; return '<button class="chip pick '+(inn?'on':'')+'" '+(inn?'disabled':'data-act="addfig" data-s="'+esc(f.slug)+'"')+'>'+esc(f.name)+(inn?'':' +')+'</button>'; }).join('')
+   + S.figures.map(function(f){ var inn = S.roomFigs.indexOf(f.slug)>-1; return inn
+       ? '<span class="chip pick on">'+esc(f.name)+'<button class="rm" data-act="rmfig" data-s="'+esc(f.slug)+'" title="Uit de chat halen" aria-label="'+esc(f.name)+' uit de chat halen">×</button></span>'
+       : '<button class="chip pick" data-act="addfig" data-s="'+esc(f.slug)+'">'+esc(f.name)+(inn?'':' +')+'</button>'; }).join('')
    +'</div></div>'
    +'<div><button class="link" data-act="leave">Chat verlaten</button></div>';
   sheet(h);
@@ -952,6 +978,14 @@ document.addEventListener('click', async function(e){
     headInfo();
     var li = $('#list');
     if (li){ li.innerHTML = S.msgs.map(msgHTML).join(''); scrollEnd(); }
+  }
+  else if (act === 'rmfig'){
+    var fg = figBySlug(a.dataset.s), nm = fg ? fg.name : 'Deze vrouw';
+    if (!confirm(nm + ' uit deze chat halen? Haar eerdere berichten blijven staan.')) return;
+    var rr2 = await sb.rpc('remove_figures', {rid: S.room.id, p_figures:[a.dataset.s]});
+    if (rr2.error){ toast('Weghalen lukt niet. Probeer het zo nog eens.'); return; }
+    S.roomFigs = S.roomFigs.filter(function(x){ return x !== a.dataset.s; });
+    headInfo(); infoSheet(); toast(nm + ' doet niet meer mee.');
   }
   else if (act === 'addfig'){
     var rr = await sb.rpc('add_figures', {rid: S.room.id, p_figures:[a.dataset.s]});
