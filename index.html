@@ -633,6 +633,7 @@ function leaveView(){
 function errText(code){
   if (code === 'limit') return 'Je hebt vandaag veel gevraagd. Morgen is er weer ruimte.';
   if (code === 'no_key') return 'De vrouwen zijn nog niet aangesloten. Check het stappenplan (de sleutel ontbreekt).';
+  if (code === 'empty') return 'Er kwam geen tekst binnen. Typ je bericht opnieuw.';
   return 'De vrouwen zijn even stil. Probeer het zo nog eens.';
 }
 async function askAI(){
