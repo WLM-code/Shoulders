@@ -1,13 +1,13 @@
 {
-  "name": "Op hun schouders",
-  "short_name": "Schouders",
+  "name": "Shoulders",
+  "short_name": "Shoulders",
   "description": "Chat met vrouwen die je voorgingen, samen met je vrienden.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#CBEFE0",
-  "theme_color": "#CBEFE0",
+  "background_color": "#EFE3CC",
+  "theme_color": "#EFE3CC",
   "icons": [
     {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
     {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
