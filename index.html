@@ -27,8 +27,13 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{font-family:var(--body);font-size:17px;line-height:1.45;color:var(--ink);background:var(--mint);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%232B241C' stroke-opacity='.13' stroke-width='2'%3E%3Cpath d='M20 34c0-10 8-18 18-18 0 10-8 18-18 18zM38 16v18'/%3E%3Cpath d='M86 94c0-10 8-18 18-18 0 10-8 18-18 18zM104 76v18'/%3E%3Cpath d='M74 28c10 0 18 8 18 18-10 0-18-8-18-18zM92 46v16'/%3E%3Cpath d='M26 88c10 0 18 8 18 18-10 0-18-8-18-18zM44 106v12'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:120px 120px;background-attachment:fixed}
+  background-image:
+    radial-gradient(120% 52% at 50% -10%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%),
+    repeating-conic-gradient(from 0deg at 50% 0%,
+      rgba(232,124,46,.30) 0 6deg, rgba(255,255,255,0) 6deg 12deg,
+      rgba(246,186,61,.40) 12deg 18deg, rgba(255,255,255,0) 18deg 24deg,
+      rgba(44,96,168,.22) 24deg 30deg, rgba(255,255,255,0) 30deg 36deg);
+  background-attachment:fixed}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:0}
 [hidden]{display:none!important}
