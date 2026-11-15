@@ -824,6 +824,9 @@ function errText(code){
   if (code === 'limit') return 'Je hebt vandaag veel gevraagd. Morgen is er weer ruimte.';
   if (code === 'no_key') return 'De vrouwen zijn nog niet aangesloten. Check het stappenplan (de sleutel ontbreekt).';
   if (code === 'empty') return 'Er kwam geen tekst binnen. Typ je bericht opnieuw.';
+  if (code === 'save_failed') return 'De vrouwen konden hun antwoord niet opslaan. Draai supabase.sql opnieuw in de SQL Editor.';
+  if (code === 'ai_failed') return 'De vrouwen konden even niet antwoorden. Probeer het zo nog eens.';
+  if (code === 'bad_format') return 'Het antwoord kwam verkeerd terug. Probeer het nog een keer.';
   return 'De vrouwen zijn even stil. Probeer het zo nog eens.';
 }
 async function askAI(){
