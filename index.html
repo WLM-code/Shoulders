@@ -63,6 +63,10 @@ h2{font-family:var(--caps);text-transform:uppercase;letter-spacing:.08em;font-si
 .nav button.dot:after{content:"";position:absolute;top:7px;right:calc(50% - 26px);width:8px;height:8px;border-radius:50%;background:#D62828;border:1px solid var(--ink)}
 .nw{display:inline-block;width:9px;height:9px;border-radius:50%;background:#D62828;border:1px solid var(--ink);margin-left:7px;vertical-align:middle}
 /* quiz */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 2px 10px;font-size:14.5px}
+.qtheme b{font-family:var(--caps)}
+.qstreak{display:inline-flex;align-items:center;gap:5px;background:var(--cream);border:var(--line);border-radius:999px;padding:3px 11px}
+.qstreak b{font-size:16px}
 .qnum{font-family:var(--caps);text-transform:uppercase;letter-spacing:.06em;font-size:12px;opacity:.7;margin:10px 0 2px}
 .qv{font-size:17px;margin:0 0 10px}
 .opts{display:grid;gap:8px}
@@ -182,7 +186,59 @@ input:focus,textarea:focus{outline:3px solid var(--sky)}
 .m.fig .sm{margin-top:2px}
 .q{margin-top:9px;padding:8px 10px;border:var(--line);border-radius:10px;background:var(--mint2);font-style:italic;font-size:16px}
 .q cite{display:block;font-style:normal;font-size:12.5px;margin-top:4px;opacity:.8}
-.lw{display:block;margin-top:7px}
+.lw{display:inline-block}
+.acts{display:flex;align-items:center;gap:6px;margin-top:7px}
+.rb{display:inline-flex;align-items:center;justify-content:center;width:30px;height:26px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;opacity:.5;cursor:pointer;color:inherit;padding:0}
+.rb:hover,.rb:focus-visible{opacity:1}
+.m{transition:transform .15s ease}
+.m.flash .bub{outline:3px solid var(--sun);outline-offset:2px}
+.rq{border-left:3px solid var(--hot);background:rgba(0,0,0,.05);border-radius:6px;padding:4px 8px;margin:4px 0 6px;font-size:13.5px;cursor:pointer;opacity:.9}
+.rq b{display:block;font-size:12px;font-family:var(--caps);letter-spacing:.03em}
+.m.me .rq{border-left-color:var(--ink);background:rgba(255,255,255,.35)}
+.at{font-weight:700}
+.room.unread b{color:var(--hot)}
+.room .cnt{flex:none;min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:var(--hot);color:#fff;font-style:normal;font-size:13px;font-weight:700;display:grid;place-items:center;border:1.5px solid var(--ink)}
+.room .cnt:empty{min-width:12px;width:12px;height:12px;padding:0}
+.mention{margin:0 12px 6px;background:var(--cream);border:var(--line);border-radius:14px;box-shadow:3px 3px 0 var(--ink);overflow:hidden;max-height:240px;overflow-y:auto}
+.mention button{display:flex;align-items:center;gap:10px;width:100%;padding:8px 12px;background:none;border:0;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;cursor:pointer;font-size:15px}
+.mention button:last-child{border-bottom:0}
+.mention button span{flex:1}
+.mention small{opacity:.6;font-size:12px}
+.mention .sm{width:30px;height:30px;min-width:30px;flex:0 0 30px;font-size:11px}
+.mention .sm.pp{background:var(--sky);color:#fff;display:grid;place-items:center;border-radius:50%;border:var(--line)}
+.replybar{margin:0 12px 6px;display:flex;align-items:center;gap:8px;background:var(--cream);border:var(--line);border-left:5px solid var(--hot);border-radius:12px;padding:6px 8px 6px 12px}
+.replybar div{flex:1;min-width:0}
+.replybar b{display:block;font-size:12.5px;font-family:var(--caps);letter-spacing:.03em}
+.replybar span{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.8}
+.replybar button{background:none;border:0;font-size:22px;line-height:1;cursor:pointer;padding:2px 6px}
+.dots{display:inline-flex;gap:3px;margin-right:8px;vertical-align:middle}
+.dots i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.3;animation:dot 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:.9;transform:translateY(-3px)}}
+.typing.bad{color:var(--hot);font-style:normal;font-weight:600}
+.chk{display:flex;gap:9px;align-items:flex-start;margin:10px 0;font-size:14.5px}
+.chk input{margin-top:4px;width:18px;height:18px;flex:none}
+#story,#cq,#pwhy{width:100%;border:var(--line);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;background:#fff;resize:vertical}
+.hintcard{border-color:var(--hot);background:#fff}
+.council{min-height:100dvh}
+.cbody{padding:16px 14px 40px;max-width:1100px;margin:0 auto}
+.cq{font-family:var(--caps);font-size:19px;line-height:1.35;background:var(--cream);border:var(--line);border-radius:16px;padding:14px 16px;box-shadow:3px 3px 0 var(--ink);margin-bottom:16px}
+.cgrid{display:grid;grid-auto-flow:column;grid-auto-columns:min(84%,340px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 14px}
+@media (min-width:900px){.cgrid{grid-auto-flow:row;grid-template-columns:repeat(3,1fr)}}
+.cp{scroll-snap-align:start;padding:8px;display:flex;flex-direction:column;background:var(--cream)}
+.cp .art{border:var(--line);border-radius:10px;aspect-ratio:1/0.75}
+.cpb{padding:10px 6px 4px;display:flex;flex-direction:column;gap:8px;flex:1}
+.cpn{font-family:var(--caps);text-transform:uppercase;letter-spacing:.05em;font-size:14px}
+.cps{font-family:var(--caps);font-size:19px;line-height:1.2;color:var(--hot)}
+.cpb p{margin:0;font-size:15.5px}
+.cpb .btn{margin-top:auto;align-self:flex-start}
+.plist{margin-top:14px;border-top:1px solid rgba(0,0,0,.12);padding-top:10px}
+.prow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.08)}
+.prow small{opacity:.7}
+.prow .pw{display:block;font-size:13px}
+.pst{font-size:12px;font-family:var(--caps);text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:999px;border:1.5px solid var(--ink)}
+.pst.goedgekeurd{background:#DFF3E6}.pst.afgewezen{opacity:.5}.pst.nieuw{background:var(--sun)}
+.pacts{display:flex;gap:6px;width:100%}
 .lb{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:3px 9px;font:inherit;font-size:12.5px;cursor:pointer;opacity:.55}
 .lb.on{opacity:1;background:#fff}
 .lb svg{opacity:.35}
@@ -291,13 +347,26 @@ var S = {
   figures: FALLBACK.slice(), rooms: [],
   room: null, members: {}, roomFigs: [], msgs: [], ids: {},
   quiz: null, board: null, winner: null, quizBusy: false,
-  ask: true, sending: false, authMode: 'login', typingTimer: null, channel: null, ready: false
+  ask: true, sending: false, authMode: 'login', typingTimer: null, channel: null, ready: false,
+  replyTo: null, unreadTotal: 0, councils: [], council: null, proposals: null, mention: null
 };
+var VAPID_PUBLIC = 'BCipbDr18rg8yTydUJrCYvGAsnKNqaGIbywt8kZxChgqu6emDbNBoFq70WvsTIRpiimY9aXWql7h-xSGHuAB0cE';
 
 /* ---------- Hulpjes ---------- */
 function $(s, r){ return (r || document).querySelector(s); }
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function br(s){ return esc(s).replace(/\n/g, '<br>'); }
+function mentionBr(s){
+  var out = br(s);
+  var names = [];
+  (S.roomFigs||[]).forEach(function(sl){ var f = figBySlug(sl); if (f) names.push(f.name); });
+  Object.keys(S.members||{}).forEach(function(k){ if (S.members[k]) names.push(S.members[k]); });
+  names.sort(function(a,b){ return b.length - a.length; }).forEach(function(n){
+    var e = esc(n).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    out = out.replace(new RegExp('@' + e, 'g'), '<b class="at">@' + esc(n) + '</b>');
+  });
+  return out;
+}
 function initials(n){ var p = String(n).trim().split(/\s+/); return ((p[0]||'')[0] || '') + (p.length > 1 ? (p[p.length-1][0] || '') : ''); }
 function figBySlug(sl){ for (var i=0;i<S.figures.length;i++) if (S.figures[i].slug===sl) return S.figures[i]; return null; }
 function shortName(f){ var p=f.name.split(' '); return p[p.length-1]; }
@@ -343,6 +412,7 @@ var root = $('#app');
 
 function render(){
   if (S.room) return; // chat beheert zichzelf
+  if (S.inCouncil) return;
   if (sb && !S.user) return renderAuth();
   renderMain();
 }
@@ -374,7 +444,7 @@ function renderMain(){
    '<div class="top"><div class="brand">Shoulders<small>Leer van de vrouwen die je voorgingen</small></div></div>'
   +'<div class="content">'+body+'</div>'
   +'<nav class="nav"><div>'
-  +['chats:Chats','vrouwen:Vrouwen','quiz:Quiz','ik:Ik'].map(function(t){ var p=t.split(':'); return '<button data-act="tab" data-t="'+p[0]+'" class="'+(S.tab===p[0]?'on':'')+'">'+p[1]+'</button>'; }).join('')
+  +['chats:Chats','vrouwen:Vrouwen','quiz:Quiz','ik:Ik'].map(function(t){ var p=t.split(':'); return '<button data-act="tab" data-t="'+p[0]+'" class="'+(S.tab===p[0]?'on':'')+(p[0]==='chats'&&S.unreadTotal?' dot':'')+'">'+p[1]+'</button>'; }).join('')
   +'</div></nav>';
 }
 
@@ -389,16 +459,27 @@ function chatsTab(){
   if (!sb){
     return h + '<div class="card pad"><b class="cap">Nog niet gekoppeld</b><p>De app is nog niet verbonden met de database, dus chatten kan nog niet. Het tabblad Vrouwen werkt al. Volg het stappenplan om te koppelen.</p></div>';
   }
-  h += '<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn main" data-act="new">Nieuwe chat</button><button class="btn" data-act="joinform">Doe mee met code</button></div>';
+  h += '<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn main" data-act="new">Nieuwe chat</button><button class="btn" data-act="council">Vraag de raad</button><button class="btn" data-act="joinform">Doe mee met code</button></div>';
+  h += pushCard(true);
   if (!S.ready) return h + '<p class="empty">Even laden…</p>';
-  if (!S.rooms.length) return h + '<div class="card empty">Nog geen chats. Start er een met een of meer vrouwen, en nodig daarna je vrienden uit.</div>';
+  if (!S.rooms.length) return h + '<div class="card empty">Nog geen chats. Start er een met een of meer vrouwen, en nodig daarna je vrienden uit.</div>'
+    + (S.councils && S.councils.length ? '<h2>Eerdere raden</h2>' + S.councils.slice(0,5).map(function(c, i){ return '<button class="card room" data-act="copen" data-i="'+i+'"><span class="tx"><b>'+esc((c.result||{}).title || 'De raad')+'</b><small>'+esc(c.question)+'</small></span></button>'; }).join('') : '');
   h += '<h2>Jouw chats</h2>';
+  var rest = '';
+  if (S.councils && S.councils.length){
+    rest = '<h2>Eerdere raden</h2>' + S.councils.slice(0,5).map(function(c, i){
+      var figs = ((c.result||{}).perspectives||[]).map(function(p){ var f = figBySlug(p.figure); return f ? sm(f) : ''; }).join('');
+      return '<button class="card room" data-act="copen" data-i="'+i+'"><span class="av">'+figs+'</span><span class="tx"><b>'+esc((c.result||{}).title || 'De raad')+'</b><small>'+esc(c.question)+'</small></span></button>';
+    }).join('');
+  }
   S.rooms.forEach(function(r){
-    h += '<button class="card room" data-act="open" data-id="'+esc(r.id)+'"><span class="av">'
+    h += '<button class="card room'+(r.unread?' unread':'')+'" data-act="open" data-id="'+esc(r.id)+'"><span class="av">'
       + (r.figs||[]).slice(0,4).map(function(s){ var f=figBySlug(s); return f?sm(f):''; }).join('')
-      + '</span><span class="tx"><b>'+esc(roomTitle(r))+(r.unread?'<em class="nw"></em>':'')+'</b><small>'+esc(r.last || 'Nog geen berichten')+'</small></span></button>';
+      + '</span><span class="tx"><b>'+esc(roomTitle(r))+'</b><small>'+esc(r.last || 'Nog geen berichten')+'</small></span>'
+      + (r.unread ? '<em class="cnt" aria-label="'+(r.unreadN||1)+' nieuw">'+(r.unreadN > 99 ? '99+' : (r.unreadN||''))+'</em>' : '')
+      + '</button>';
   });
-  return h;
+  return h + rest;
 }
 
 function figuresTab(){
@@ -414,7 +495,7 @@ function figuresTab(){
     h += '<button class="fc" data-act="fig" data-s="'+esc(f.slug)+'"><div class="nm">'+esc(f.name)+'</div>'+art(f,i)
       +'<div class="tg"><span class="yr">'+esc(f.years)+' · '+esc(f.country||'')+'</span>'+ln+'</div></button>';
   });
-  return h + '</div>';
+  return h + '</div>' + proposeCard();
 }
 
 /* ---------- ongelezen berichten ---------- */
@@ -422,17 +503,196 @@ function seenKey(){ return 'ohs-seen-' + ((S.user && S.user.id) || 'x'); }
 function seenMap(){ try{ return JSON.parse(localStorage.getItem(seenKey()) || '{}'); }catch(e){ return {}; } }
 function markSeen(roomId){
   try{ var m = seenMap(); m[roomId] = new Date().toISOString(); localStorage.setItem(seenKey(), JSON.stringify(m)); }catch(e){}
-  S.rooms.forEach(function(r){ if (r.id === roomId) r.unread = false; });
+  try{ if (sb) sb.rpc('mark_read', {rid: roomId}).then(function(){}, function(){}); }catch(e){}
+  S.rooms.forEach(function(r){ if (r.id === roomId){ r.unread = false; r.unreadN = 0; } });
   setBadge();
 }
-function unreadCount(){ var n = 0; S.rooms.forEach(function(r){ if (r.unread) n++; }); return n; }
+var markTimer = null;
+function markSeenSoon(){ clearTimeout(markTimer); markTimer = setTimeout(function(){ if (S.room && document.visibilityState === 'visible') markSeen(S.room.id); }, 1200); }
+function unreadCount(){ var n = 0; S.rooms.forEach(function(r){ n += (r.unreadN || (r.unread ? 1 : 0)); }); return n; }
 function setBadge(){
-  var n = unreadCount();
+  var n = unreadCount(); S.unreadTotal = n;
   try{
     if (navigator.setAppBadge){ n ? navigator.setAppBadge(n) : navigator.clearAppBadge(); }
   }catch(e){}
   var t = document.querySelector('.nav button[data-t="chats"]');
   if (t) t.classList.toggle('dot', n > 0);
+}
+
+/* ---------- pushmeldingen ---------- */
+function pushSupported(){ return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
+function isStandalone(){ return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+function b64ToBytes(s){ var p = '='.repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g,'+').replace(/_/g,'/')); var a = new Uint8Array(b.length); for (var i=0;i<b.length;i++) a[i] = b.charCodeAt(i); return a; }
+var swReg = null;
+function registerSW(){
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('sw.js').then(function(r){ swReg = r; refreshPushState(); }, function(){});
+  navigator.serviceWorker.addEventListener('message', function(e){
+    var d = e.data || {};
+    if (d.type === 'open' && d.room && S.user){ openRoom(d.room); }
+    if (d.type === 'push' && S.user && !S.room){ loadRooms().then(function(){ if (!S.room) render(); }); }
+  });
+}
+async function refreshPushState(){
+  S.push = 'off';
+  if (!pushSupported()) { S.push = 'unsupported'; return; }
+  if (Notification.permission === 'denied'){ S.push = 'denied'; return; }
+  try{
+    var reg = swReg || await navigator.serviceWorker.getRegistration();
+    var sub = reg && await reg.pushManager.getSubscription();
+    if (sub) S.push = 'on';
+  }catch(e){}
+  if (!S.room && (S.tab === 'ik' || S.tab === 'chats')) render();
+}
+async function enablePush(){
+  if (!pushSupported()){
+    toast(isIOS() && !isStandalone() ? 'Zet de app eerst op je beginscherm, open hem daar en probeer het opnieuw.' : 'Deze browser kan geen meldingen ontvangen.');
+    return;
+  }
+  try{
+    var perm = await Notification.requestPermission();
+    if (perm !== 'granted'){ toast('Meldingen staan uit. Je kunt ze aanzetten in de instellingen van je telefoon.'); S.push = perm === 'denied' ? 'denied' : 'off'; render(); return; }
+    var reg = swReg || await navigator.serviceWorker.register('sw.js');
+    await navigator.serviceWorker.ready;
+    var sub = await reg.pushManager.getSubscription() || await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64ToBytes(VAPID_PUBLIC)});
+    var j = sub.toJSON();
+    var r = await sb.from('push_subscriptions').upsert({endpoint:j.endpoint, user_id:S.user.id, p256dh:j.keys.p256dh, auth:j.keys.auth}, {onConflict:'endpoint'});
+    if (r.error) throw r.error;
+    S.push = 'on'; toast('Meldingen staan aan.'); render();
+  }catch(e){ console.error(e); toast('Meldingen aanzetten lukte niet. Probeer het opnieuw.'); }
+}
+async function disablePush(){
+  try{
+    var reg = swReg || await navigator.serviceWorker.getRegistration();
+    var sub = reg && await reg.pushManager.getSubscription();
+    if (sub){ await sb.from('push_subscriptions').delete().eq('endpoint', sub.endpoint); await sub.unsubscribe(); }
+  }catch(e){}
+  S.push = 'off'; render();
+}
+function pushCard(compact){
+  if (!sb || !S.user) return '';
+  var st = S.push || 'off';
+  if (compact){
+    var hide = false; try{ hide = localStorage.getItem('shoulders-pushhint') === 'nee'; }catch(e){}
+    if (st !== 'off' || hide) return '';
+    return '<div class="card pad hintcard"><b class="cap">Mis geen antwoord</b><p>Krijg een melding als een vrouw of vriend(in) reageert.</p>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn main small" data-act="pushon">Meldingen aan</button><button class="btn small" data-act="pushhint">Niet nu</button></div></div>';
+  }
+  var h = '<div class="card pad"><b class="cap">Meldingen</b>';
+  if (st === 'on') h += '<p>Staan aan op dit apparaat. Je krijgt een melding als iemand reageert, behalve als je de chat zelf open hebt.</p><button class="btn small" data-act="pushoff">Zet uit</button>';
+  else if (st === 'denied') h += '<p>Je telefoon blokkeert meldingen voor deze app. Zet ze aan bij de instellingen van je browser of telefoon.</p>';
+  else if (st === 'unsupported') h += '<p>'+(isIOS() && !isStandalone() ? 'Op iPhone werken meldingen alleen als je de app op je beginscherm zet en daar opent.' : 'Deze browser ondersteunt geen meldingen.')+'</p>';
+  else h += '<p>Krijg een melding op je beginscherm als een vrouw of vriend(in) reageert.</p><button class="btn main small" data-act="pushon">Zet meldingen aan</button>'
+    + (isIOS() && !isStandalone() ? '<p class="hint">Op iPhone: eerst de app op je beginscherm zetten.</p>' : '');
+  return h + '</div>';
+}
+
+/* ---------- mijn verhaal (alleen op deze telefoon) ---------- */
+function storyCard(){
+  if (!S.user) return '';
+  var st = getStory();
+  return '<div class="card pad"><b class="cap">Mijn verhaal</b>'
+   +'<p class="hint">Een paar zinnen over je leven, zodat de vrouwen je niet steeds opnieuw hoeven te vragen hoe het zit. Dit staat alleen op deze telefoon. Het gaat bij een vraag mee naar de AI om je te antwoorden en wordt nergens bewaard. Je vrienden zien het nooit.</p>'
+   +'<textarea id="story" rows="5" maxlength="1500" placeholder="Bijvoorbeeld: ik werk in een team met vooral mannen en twijfel of ik minder ga werken.">'+esc(st.text||'')+'</textarea>'
+   +'<label class="chk"><input type="checkbox" id="storygroups" '+(st.groups?'checked':'')+'> <span>Ook gebruiken in groepschats. De vrouwen noemen het daar nooit, het kleurt alleen hun advies.</span></label>'
+   +'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn main small" data-act="storysave">Bewaar op deze telefoon</button>'
+   +(st.text ? '<button class="btn small" data-act="storyclear">Wis</button>' : '')+'</div>'
+   +'<p class="hint">Gebruik je de app op een ander apparaat of in een andere browser, dan vul je het daar apart in.</p></div>';
+}
+
+/* ---------- de raad ---------- */
+function councilSheet(){
+  var pre = (S.councilPick || []);
+  var h = '<button class="x" data-act="close">Sluiten</button><h3>Vraag de raad</h3>'
+   +'<p class="hint">Eén grote vraag of beslissing. Drie vrouwen die er echt anders over denken, naast elkaar.</p>'
+   +'<textarea id="cq" rows="4" maxlength="1200" placeholder="Bijvoorbeeld: zal ik minder gaan werken nu de kinderen klein zijn?"></textarea>'
+   +'<p><b class="cap" style="font-size:12px">Zelf kiezen (hoeft niet, max 3)</b></p><div class="chips">'
+   + S.figures.map(function(f){ var on = pre.indexOf(f.slug) > -1; return '<button type="button" class="chip pick '+(on?'on':'')+'" data-act="cpick" data-s="'+esc(f.slug)+'">'+esc(f.name)+'</button>'; }).join('')
+   +'</div><p class="hint">Kies je niemand, dan zoek ik de drie die het meest van elkaar verschillen.</p>'
+   +'<div id="cerr" class="err" hidden></div>'
+   +'<button class="btn main" data-act="cask" id="cbtn" style="width:100%">Vraag de raad</button>';
+  sheet(h);
+}
+async function askCouncil(){
+  var q = ($('#cq')||{}).value || ''; q = q.trim();
+  var er = $('#cerr'), btn = $('#cbtn');
+  if (!q){ er.textContent = 'Typ eerst je vraag.'; er.hidden = false; return; }
+  btn.disabled = true; btn.innerHTML = '<span class="dots"><i></i><i></i><i></i></span> De raad overlegt…';
+  try{
+    var st = getStory();
+    var r = await sb.functions.invoke('chat', {body:{mode:'council', question:q, figures:(S.councilPick||[]), story: st.text || ''}});
+    var code = '';
+    if (r.error){ try{ var j = await r.error.context.json(); code = j.error; }catch(e){ code = 'x'; } throw new Error(code); }
+    S.councilPick = [];
+    closeSheet();
+    S.council = {id:r.data.id, question:q, result:r.data.result, created_at:new Date().toISOString()};
+    S.councils.unshift(S.council);
+    renderCouncil();
+  }catch(e){
+    er.textContent = errText(e.message); er.hidden = false; btn.disabled = false; btn.textContent = 'Vraag de raad';
+  }
+}
+function renderCouncil(){
+  var c = S.council; if (!c) return;
+  var res = c.result || {};
+  var h = '<div class="council"><header class="chat-top"><button class="ib" data-act="cback" aria-label="Terug">←</button>'
+   +'<div class="ct"><b>'+esc(res.title || 'De raad')+'</b><small>Drie vrouwen, drie kanten</small></div></header>'
+   +'<div class="cbody"><div class="cq">“'+esc(c.question)+'”</div><div class="cgrid">';
+  (res.perspectives||[]).forEach(function(p, i){
+    var f = figBySlug(p.figure) || {name:p.figure, slug:p.figure, color:'#999'};
+    h += '<article class="card cp">'+art(f, i)
+      +'<div class="cpb"><div class="cpn">'+esc(f.name)+'</div><div class="cps">'+esc(p.stance||'')+'</div>'
+      +'<p>'+br(p.text||'')+'</p>'
+      +(p.quote ? '<div class="q">“'+esc(p.quote)+'”<cite>'+esc(p.quote_source||'')+'</cite></div>' : '')
+      +'<button class="btn small" data-act="cchat" data-s="'+esc(f.slug)+'">Praat verder met '+esc(firstName(f))+'</button></div></article>';
+  });
+  h += '</div>' + (res.note ? '<p class="hint" style="margin-top:12px">'+esc(res.note)+'</p>' : '')
+   + '<p class="hint">AI-interpretaties van hun ideeën. Citaten met bron zijn echt.</p></div></div>';
+  S.inCouncil = true;
+  root.innerHTML = h; window.scrollTo(0,0);
+}
+async function loadCouncils(){
+  try{
+    var r = await sb.from('councils').select('id,question,result,created_at').order('created_at',{ascending:false}).limit(6);
+    if (!r.error) S.councils = r.data || [];
+  }catch(e){}
+}
+async function councilToChat(slug){
+  var c = S.council; if (!c) return;
+  var f = figBySlug(slug);
+  var r = await sb.rpc('create_room', {p_title: (c.result && c.result.title) || null, p_figures:[slug]});
+  if (r.error){ toast('Chat starten lukt niet. Probeer het zo nog eens.'); return; }
+  S.inCouncil = false;
+  await loadRooms();
+  await openRoom(r.data);
+  var ta = $('#msg'); if (ta){ ta.value = c.question; ta.focus(); }
+}
+
+/* ---------- een vrouw voorstellen ---------- */
+function proposeCard(){
+  if (!sb || !S.user) return '';
+  var h = '<div class="card pad"><b class="cap">Mis je iemand?</b><p class="hint">Stel een vrouw voor. Wordt ze goedgekeurd, dan komt ze erbij met een eigen tekening en echte citaten.</p>'
+   +'<label class="f"><span>Naam</span><input id="pname" maxlength="80" placeholder="Bijvoorbeeld: Frida Kahlo"></label>'
+   +'<label class="f"><span>Waarom zij?</span><textarea id="pwhy" rows="2" maxlength="400" placeholder="Hoeft niet"></textarea></label>'
+   +'<button class="btn main small" data-act="propose">Stel voor</button>';
+  var list = S.proposals || [];
+  if (list.length){
+    var admin = S.profile && S.profile.is_admin;
+    h += '<div class="plist"><b class="cap" style="font-size:12px">'+(admin ? 'Voorstellen' : 'Jouw voorstellen')+'</b>';
+    list.forEach(function(p){
+      h += '<div class="prow"><div><b>'+esc(p.name)+'</b>'+(admin && !p.mine ? ' <small>van '+esc(p.by_name)+'</small>' : '')
+        +(p.why ? '<small class="pw">'+esc(p.why)+'</small>' : '')+'</div><span class="pst '+esc(p.status)+'">'+esc(p.status)+'</span>'
+        +(admin && p.status === 'nieuw' ? '<div class="pacts"><button class="btn small" data-act="pok" data-id="'+esc(p.id)+'">Goedkeuren</button><button class="btn small" data-act="pno" data-id="'+esc(p.id)+'">Afwijzen</button></div>' : '')
+        +'</div>';
+    });
+    if (admin && list.some(function(p){ return p.status === 'goedgekeurd'; })) h += '<p class="hint">Goedgekeurd? Vraag Claude om haar te bouwen, met persona, echte citaten en een tekening in dezelfde stijl.</p>';
+    h += '</div>';
+  }
+  return h + '</div>';
+}
+async function loadProposals(){
+  try{ var r = await sb.rpc('proposals_with_names'); if (!r.error){ S.proposals = r.data || []; if (!S.room && S.tab === 'vrouwen') render(); } }catch(e){}
 }
 
 /* ---------- dagelijkse quiz ---------- */
@@ -444,36 +704,95 @@ function pick(arr, r, n){
   for (var i=a.length-1;i>0;i--){ var j = Math.floor(r()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
   return a.slice(0, n);
 }
+var FLAME = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#D3763C" stroke="#2B241C" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c-4 0-7-3-7-7 0-4 3-6 4-10 2 2 3 4 3 6 1-1 2-3 2-5 3 3 5 6 5 9 0 4-3 7-7 7z"/></svg>';
+var QBANK = {
+  wollstonecraft:['Wie schreef in 1792 A Vindication of the Rights of Woman?','Wie vond al in de 18e eeuw dat meisjes hetzelfde onderwijs moesten krijgen als jongens?'],
+  truth:['Wie hield in 1851 in Akron (Ohio) een beroemde toespraak over vrouwenrechten?','Wie ontsnapte in 1826 met haar dochtertje uit de slavernij en koos later zelf een nieuwe naam?'],
+  jacobs:['Wie was de eerste vrouw die in Nederland aan een universiteit studeerde?','Wie opende in Amsterdam een gratis spreekuur over anticonceptie voor arme vrouwen?'],
+  phule:['Wie opende in 1848 met haar man een van de eerste meisjesscholen van India?','Welke lerares werd onderweg naar school bekogeld en nam daarom een tweede sari mee?'],
+  beauvoir:['Wie schreef in 1949 De tweede sekse?','Van wie komt het idee dat je niet als vrouw geboren wordt, maar het wordt?'],
+  lorde:['Wie schreef de essaybundel Sister Outsider (1984)?','Van wie komt het idee dat je het huis van de meester niet afbreekt met de gereedschappen van de meester?'],
+  hooks:['Wie schreef in 1981 Ain’t I a Woman? Black Women and Feminism?','Wie schreef haar naam bewust zonder hoofdletters, zodat het om haar ideeën zou gaan?'],
+  mernissi:['Wie schreef in 1975 Beyond the Veil, over vrouwen en mannen in de islam?','Welke Marokkaanse socioloog onderzocht hoe de vroege islam over vrouwen dacht?'],
+  maathai:['Wie richtte de Green Belt Movement op, die miljoenen bomen liet planten?','Wie was in 2004 de eerste Afrikaanse vrouw met een Nobelprijs voor de Vrede?'],
+  anzaldua:['Wie schreef in 1987 Borderlands/La Frontera?','Van wie komt het mestiza-bewustzijn: denken vanuit meerdere culturen tegelijk?'],
+  angelou:['Wie schreef in 1969 I Know Why the Caged Bird Sings?','Wie droeg in 1993 een gedicht voor bij de inauguratie van president Clinton?'],
+  pankhurst:['Wie richtte in 1903 de Women’s Social and Political Union op?','Van wie was het motto Deeds, not words?'],
+  butler:['Wie schreef in 1993 Parable of the Sower?','Welke schrijver kreeg als eerste sciencefictionauteur een MacArthur-beurs?'],
+  varda:['Wie maakte in 1962 de film Cléo de 5 à 7?','Welke filmmaker kreeg in 2017 een ere-Oscar voor haar hele werk?'],
+  ginsburg:['Wie zat van 1993 tot 2020 in het Amerikaanse Hooggerechtshof?','Wie leidde in de jaren zeventig het Women’s Rights Project van de ACLU?'],
+  greer:['Wie schreef in 1970 The Female Eunuch?','Wie vond dat vrouwen bevrijding nodig hebben, niet alleen gelijkheid met mannen?']
+};
+var THEMES = [
+  {naam:'Schrijven en stem', slugs:['wollstonecraft','angelou','lorde','butler','anzaldua','beauvoir','greer']},
+  {naam:'Onderwijs', slugs:['wollstonecraft','phule','jacobs','hooks','mernissi']},
+  {naam:'Protest en recht', slugs:['truth','pankhurst','ginsburg','jacobs','maathai']},
+  {naam:'Lichaam en zorg', slugs:['jacobs','greer','beauvoir','lorde','hooks']},
+  {naam:'Grenzen en identiteit', slugs:['anzaldua','mernissi','lorde','hooks','truth','angelou']},
+  {naam:'Aarde, film en toekomst', slugs:['maathai','butler','varda','phule']}
+];
+function weekNo(d){ d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); var n = d.getUTCDay() || 7; d.setUTCDate(d.getUTCDate() + 4 - n); var y = new Date(Date.UTC(d.getUTCFullYear(),0,1)); return Math.ceil(((d - y) / 86400000 + 1) / 7) + d.getUTCFullYear() * 53; }
+function weekTheme(){ return THEMES[weekNo(new Date()) % THEMES.length]; }
+function birthYear(f){ var m = String(f.years||'').match(/\d{4}/); return m ? Number(m[0]) : null; }
+function spacedYears(figs, f, r){
+  // afleiders die minstens 30 jaar van het goede antwoord en van elkaar liggen
+  var by = birthYear(f), pool = pick(figs.filter(function(x){ return x.slug !== f.slug && birthYear(x); }), r, figs.length), chosen = [];
+  pool.forEach(function(x){
+    if (chosen.length >= 3) return;
+    var y = birthYear(x);
+    if (Math.abs(y - by) < 30) return;
+    if (chosen.some(function(c){ return Math.abs(birthYear(c) - y) < 30; })) return;
+    if (chosen.some(function(c){ return c.years === x.years; })) return;
+    chosen.push(x);
+  });
+  return chosen.length === 3 ? chosen.map(function(x){ return x.years; }) : null;
+}
 function quizQuestions(day){
   var figs = S.figures.filter(function(f){ return f.name && f.years; });
   if (figs.length < 4) return [];
   var r = rng(seedOf(day)), out = [], used = {};
-  var kinds = ['quote','land','tijd'];
-  for (var k = 0; k < 3; k++){
-    var kind = kinds[k], tries = 0, q = null;
-    while (!q && tries++ < 40){
-      var f = figs[Math.floor(r()*figs.length)];
-      if (used[f.slug + kind]) continue;
-      if (kind === 'quote'){
+  var theme = weekTheme();
+  var themed = figs.filter(function(f){ return theme.slugs.indexOf(f.slug) > -1; });
+  var pickFig = function(preferTheme){ var src = (preferTheme && themed.length >= 2 && r() < 0.75) ? themed : figs; return src[Math.floor(r()*src.length)]; };
+  var third = (seedOf(day) % 2) ? 'tijd' : 'land';
+  var kinds = ['idee','quote',third];
+  kinds.forEach(function(kind){
+    var tries = 0, q = null;
+    while (!q && tries++ < 60){
+      var f = pickFig(kind !== third);
+      if (used[f.slug]) continue;
+      if (kind === 'idee'){
+        var bank = QBANK[f.slug]; if (!bank) continue;
+        var vr = bank[Math.floor(r()*bank.length)];
+        var oth = pick(figs.filter(function(x){ return x.slug !== f.slug; }), r, 3).map(function(x){ return x.name; });
+        q = {vraag: vr, extra:'', opties: pick(oth.concat([f.name]), r, 4), goed: f.name, soort:'idee'};
+      } else if (kind === 'quote'){
         var qs = (f.quotes||[]); if (!qs.length) continue;
         var qt = qs[Math.floor(r()*qs.length)];
         var others = pick(figs.filter(function(x){ return x.slug !== f.slug; }), r, 3).map(function(x){ return x.name; });
-        q = {vraag:'Wie zei dit?', extra:'“'+qt.text+'”', opties: pick(others.concat([f.name]), r, 4), goed: f.name};
+        q = {vraag:'Wie zei of schreef dit?', extra:'“'+qt.text+'”', opties: pick(others.concat([f.name]), r, 4), goed: f.name, soort:'citaat'};
       } else if (kind === 'land'){
-        var landen = {}; figs.forEach(function(x){ landen[x.country] = 1; });
-        var andere = pick(Object.keys(landen).filter(function(c){ return c !== f.country; }), r, 3);
+        var landen = {}; figs.forEach(function(x){ if (x.country) landen[x.country] = 1; });
+        var andere = pick(Object.keys(landen).filter(function(c){ return c !== f.country && c.indexOf(f.country) < 0 && f.country.indexOf(c) < 0; }), r, 3);
         if (andere.length < 3) continue;
-        q = {vraag:'Waar komt '+f.name+' vandaan?', extra:'', opties: pick(andere.concat([f.country]), r, 4), goed: f.country};
+        q = {vraag:'Waar komt '+f.name+' vandaan?', extra:'', opties: pick(andere.concat([f.country]), r, 4), goed: f.country, soort:'land'};
       } else {
-        var jaren = pick(figs.filter(function(x){ return x.years !== f.years; }), r, 3).map(function(x){ return x.years; });
-        if (jaren.length < 3) continue;
-        q = {vraag:'Wanneer leefde '+f.name+'?', extra:'', opties: pick(jaren.concat([f.years]), r, 4), goed: f.years};
+        var jaren = spacedYears(figs, f, r); if (!jaren) continue;
+        q = {vraag:'Wanneer leefde '+f.name+'?', extra:'', opties: pick(jaren.concat([f.years]), r, 4), goed: f.years, soort:'tijd'};
       }
-      used[f.slug + kind] = 1;
+      used[f.slug] = 1;
     }
     if (q) out.push(q);
-  }
+  });
   return out;
+}
+function streakFrom(days){
+  var set = {}; (days||[]).forEach(function(d){ set[String(d).slice(0,10)] = 1; });
+  var d = new Date(), n = 0;
+  var key = function(x){ return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
+  if (!set[key(d)]) d.setDate(d.getDate() - 1); // vandaag nog niet gespeeld: reeks loopt nog
+  while (set[key(d)]){ n++; d.setDate(d.getDate() - 1); }
+  return n;
 }
 async function loadQuiz(){
   if (!sb || !S.user) return;
@@ -482,6 +801,10 @@ async function loadQuiz(){
   try{
     var r = await sb.from('quiz_days').select('*').eq('user_id', S.user.id).eq('day', day).maybeSingle();
     if (r.data){ S.quiz.given = r.data.given || []; S.quiz.points = r.data.points || 0; }
+  }catch(e){}
+  try{
+    var sd = await sb.from('quiz_days').select('day').eq('user_id', S.user.id).order('day',{ascending:false}).limit(90);
+    if (!sd.error) S.quiz.days = (sd.data||[]).map(function(x){ return x.day; });
   }catch(e){}
   try{
     var b = await sb.rpc('quiz_board'); if (!b.error) S.board = b.data || [];
@@ -501,6 +824,7 @@ async function answer(i, keuze){
   }catch(e){ toast('Je antwoord opslaan lukte niet.'); }
   S.quizBusy = false;
   if (q.given.length === q.vragen.length){
+    q.days = q.days || []; if (q.days.indexOf(q.day) < 0) q.days.unshift(q.day);
     try{ var b = await sb.rpc('quiz_board'); if (!b.error){ S.board = b.data || []; render(); } }catch(e){}
   }
 }
@@ -508,6 +832,9 @@ function quizTab(){
   if (!sb || !S.user) return '<div class="card pad"><p>Log in om mee te doen met de quiz.</p></div>';
   if (!S.quiz){ loadQuiz(); return '<div class="card pad"><p class="hint">Even laden…</p></div>'; }
   var q = S.quiz, i = q.given.length, h = '';
+  var th = weekTheme(), streak = streakFrom(q.days);
+  h += '<div class="qhead"><span class="qtheme">Thema deze week: <b>'+esc(th.naam)+'</b></span>'
+    + '<span class="qstreak" title="Dagen achter elkaar gespeeld">'+FLAME+(streak ? '<b>'+streak+'</b> '+(streak === 1 ? 'dag op rij' : 'dagen op rij') : 'Begin je reeks')+'</span></div>';
   h += '<div class="card pad"><b class="cap">Vraag van de dag</b>';
   if (!q.vragen.length){ h += '<p>Vandaag zijn er geen vragen.</p></div>'; return h; }
   if (q.reveal !== null && q.reveal !== undefined){
@@ -546,6 +873,7 @@ function quizTab(){
 function meTab(){
   var h = '';
   if (sb && S.user){
+    h += storyCard() + pushCard(false);
     h += '<div class="card pad"><b class="cap">Ingelogd als</b><p>'+esc((S.profile&&S.profile.name)||'')+'<br><small class="hint">'+esc(S.user.email||'')+'</small></p><div><button class="btn small" data-act="logout">Uitloggen</button></div></div>';
   }
   h += '<div class="card pad"><b class="cap">Zet de app op je beginscherm</b>'
@@ -635,10 +963,18 @@ async function loadRooms(){
       var seen = {};
       (m.data||[]).forEach(function(x){ if (!seen[x.room_id] && String(x.content||'').trim()){ seen[x.room_id]=1; rooms.forEach(function(rm){ if (rm.id===x.room_id){ rm.last=x.content; rm.lastBy=x.user_id; rm.lastAt=x.created_at; } }); } });
     }
-    var seenAt = seenMap();
-    rooms.forEach(function(rm){
-      rm.unread = !!(rm.lastAt && rm.lastBy && rm.lastBy !== (S.user && S.user.id) && (!seenAt[rm.id] || String(rm.lastAt) > String(seenAt[rm.id])));
-    });
+    var un = null;
+    try{ var ur = await sb.rpc('my_unread'); if (!ur.error) un = ur.data || []; }catch(e){}
+    if (un){
+      var byRoom = {}; un.forEach(function(x){ byRoom[x.room_id] = Number(x.unread)||0; });
+      rooms.forEach(function(rm){ rm.unreadN = byRoom[rm.id] || 0; rm.unread = rm.unreadN > 0; });
+    } else {
+      var seenAt = seenMap();
+      rooms.forEach(function(rm){
+        rm.unread = !!(rm.lastAt && rm.lastBy && rm.lastBy !== (S.user && S.user.id) && (!seenAt[rm.id] || String(rm.lastAt) > String(seenAt[rm.id])));
+        rm.unreadN = rm.unread ? 1 : 0;
+      });
+    }
     rooms.sort(function(a,b){ return String(b.lastAt).localeCompare(String(a.lastAt)); });
     S.rooms = rooms;
     setBadge();
@@ -652,9 +988,12 @@ async function afterLogin(){
     S.profile = p.data || {name: (u.user_metadata && u.user_metadata.name) || u.email};
   }catch(e){ S.profile = {name: u.email}; }
   await loadFigures();
-  await loadRooms();
-  var code = null; try{ code = sessionStorage.getItem('joincode'); }catch(e){}
+  await Promise.all([loadRooms(), loadCouncils()]);
+  registerSW();
+  var code = null, room = null;
+  try{ code = sessionStorage.getItem('joincode'); room = sessionStorage.getItem('openroom'); }catch(e){}
   if (code){ try{ sessionStorage.removeItem('joincode'); }catch(e){} await doJoin(code, true); }
+  else if (room){ try{ sessionStorage.removeItem('openroom'); }catch(e){} render(); await openRoom(room); }
   else render();
 }
 
@@ -684,7 +1023,7 @@ async function openRoom(id){
   var base = null; S.rooms.forEach(function(r){ if (r.id===id) base = r; });
   S.room = {id:id, title: base ? base.title : null, code: base ? base.code : ''};
   S.msgs = []; S.ids = {}; S.likes = {}; S.members = {}; S.roomFigs = base ? base.figs.slice() : [];
-  S.ask = true;
+  S.ask = true; S.replyTo = null; S.mention = null;
   markSeen(id);
   drawChatShell();
   try{
@@ -714,9 +1053,12 @@ function drawChatShell(){
   +'<div class="ct"><b id="ctitle"></b><small id="cmeta"></small></div><button class="ib" data-act="info">Info</button></header>'
   +'<div id="list" class="list"><div class="note">Dit zijn AI-interpretaties, niet de echte vrouwen. Een citaat met bron is echt, de rest is een interpretatie van hun ideeën.</div></div>'
   +'<div id="typing" class="typing" hidden></div>'
+  +'<div id="mention" class="mention" hidden></div>'
+  +'<div id="replybar" class="replybar" hidden></div>'
   +'<form id="composer" class="composer"><button type="button" class="sw" id="sw" data-act="toggleask" aria-pressed="true"><i></i><span id="swt">Vrouwen reageren</span></button>'
   +'<div class="inp"><textarea id="msg" rows="1" placeholder="Vertel waar je mee zit…"></textarea><button class="send" aria-label="Verstuur">↑</button></div></form></div>';
   headInfo();
+  bindSwipe();
 }
 async function fetchMessages(){
   try{
@@ -755,6 +1097,23 @@ async function toggleLike(id){
 }
 function nameOf(uid){ return S.members[uid] || 'Iemand'; }
 var HRT = '<svg width="15" height="15" viewBox="0 0 24 24" fill="#E8409A" stroke="#141414" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/></svg>';
+function firstName(f){ return String(f.name).split(' ')[0]; }
+function whoName(m){
+  if (!m) return '';
+  if (m.figure_slug){ var f = figBySlug(m.figure_slug); return f ? f.name : m.figure_slug; }
+  return m.user_id === S.user.id ? 'Jij' : nameOf(m.user_id);
+}
+function findMsg(id){ for (var i=0;i<S.msgs.length;i++) if (S.msgs[i].id === id) return S.msgs[i]; return null; }
+function replyQuote(m){
+  if (!m.reply_to) return '';
+  var p = findMsg(m.reply_to);
+  var t = p ? String(p.content||'').replace(/\s+/g,' ').slice(0,90) : 'een eerder bericht';
+  return '<div class="rq" data-act="jump" data-id="'+esc(m.reply_to)+'"><b>'+esc(p ? whoName(p) : '')+'</b>'+esc(t)+(p && String(p.content||'').length>90?'…':'')+'</div>';
+}
+var REPLY_ICON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v5"/></svg>';
+function actions(m){
+  return '<span class="lw" data-id="'+esc(m.id)+'">'+likeHTML(m.id)+'</span><button class="rb" data-act="reply" data-id="'+esc(m.id)+'" aria-label="Antwoord op dit bericht">'+REPLY_ICON+'</button>';
+}
 function msgHTML(m){
   if (m.figure_slug){
     var f = figBySlug(m.figure_slug) || {name:m.figure_slug,color:'#999'};
@@ -762,18 +1121,18 @@ function msgHTML(m){
       return '<div class="m fig lkm">'+sm(f)+'<span>'+esc(f.name)+' vindt dit goed '+HRT+'</span></div>';
     }
     if (m.react === 'kort'){
-      return '<div class="m fig">'+sm(f)+'<div class="bub kort"><span class="who">'+esc(f.name)+'</span>'+br(m.content)+'<span class="lw" data-id="'+esc(m.id)+'">'+likeHTML(m.id)+'</span></div></div>';
+      return '<div class="m fig" data-id="'+esc(m.id)+'">'+sm(f)+'<div class="bub kort"><span class="who">'+esc(f.name)+'</span>'+br(m.content)+'<div class="acts">'+actions(m)+'</div></div></div>';
     }
-    return '<div class="m fig">'+sm(f)+'<div class="bub"><span class="who">'+esc(f.name)+'<i>AI-interpretatie</i></span>'+br(m.content)
+    return '<div class="m fig" data-id="'+esc(m.id)+'">'+sm(f)+'<div class="bub"><span class="who">'+esc(f.name)+'<i>AI-interpretatie</i></span>'+replyQuote(m)+br(m.content)
       +(m.quote?'<div class="q">“'+esc(m.quote)+'”<cite>'+esc(m.quote_source||'')+'</cite></div>':'')
       +(m.takeaway?'<div class="tk">'+ROCKET+'<span>'+esc(m.takeaway)+'</span></div>':'')
       +(m.suggest_slug && S.roomFigs.indexOf(m.suggest_slug) < 0 && figBySlug(m.suggest_slug)
          ? '<button class="btn sug" data-act="addsug" data-s="'+esc(m.suggest_slug)+'">'+esc(figBySlug(m.suggest_slug).name)+' uitnodigen</button>' : '')
-      +'<span class="lw" data-id="'+esc(m.id)+'">'+likeHTML(m.id)+'</span></div></div>';
+      +'<div class="acts">'+actions(m)+'</div></div></div>';
   }
   var me = m.user_id === S.user.id;
-  return '<div class="m '+(me?'me':'')+'"><div class="bub">'+(me?'':'<span class="who">'+esc(nameOf(m.user_id))+'</span>')+br(m.content)
-    +'<span class="lw" data-id="'+esc(m.id)+'">'+likeHTML(m.id)+'</span></div></div>';
+  return '<div class="m '+(me?'me':'')+'" data-id="'+esc(m.id)+'"><div class="bub">'+(me?'':'<span class="who">'+esc(nameOf(m.user_id))+'</span>')+replyQuote(m)+mentionBr(m.content)
+    +'<div class="acts">'+actions(m)+'</div></div></div>';
 }
 function addMsg(m, quiet){
   if (!m || S.ids[m.id]) return;
@@ -781,18 +1140,34 @@ function addMsg(m, quiet){
   var l = $('#list'); if (!l) return;
   var near = l.scrollHeight - l.scrollTop - l.clientHeight < 160;
   l.insertAdjacentHTML('beforeend', msgHTML(m));
-  if (m.figure_slug) showTyping(false);
+  if (m.figure_slug && m.react !== 'like') showTyping(false);
   if (!quiet && (near || m.user_id === S.user.id)) scrollEnd();
+  if (!quiet && m.user_id !== S.user.id) markSeenSoon();
 }
 function scrollEnd(){ var l = $('#list'); if (l) l.scrollTop = l.scrollHeight; }
-function showTyping(on, who){
+function thinkingLabel(text){
+  var men = mentionedFigs(text || '');
+  if (men.length === 1) return firstName(figBySlug(men[0])) + ' denkt na…';
+  if (men.length > 1) return men.map(function(s){ return firstName(figBySlug(s)); }).join(' en ') + ' denken na…';
+  if (S.roomFigs.length === 1){ var f = figBySlug(S.roomFigs[0]); if (f) return firstName(f) + ' denkt na…'; }
+  return 'De vrouwen denken na…';
+}
+function showTyping(on, label, isError){
   var t = $('#typing'); if (!t) return;
   clearTimeout(S.typingTimer);
-  if (!on){ t.hidden = true; return; }
-  var names = S.roomFigs.map(function(s){ var f=figBySlug(s); return f?shortName(f):''; }).filter(Boolean);
-  t.textContent = (names.length === 1 ? names[0] + ' denkt na…' : 'De vrouwen denken na…');
+  if (!on){ t.hidden = true; t.classList.remove('bad'); return; }
+  t.innerHTML = isError ? esc(label) : '<span class="dots"><i></i><i></i><i></i></span>' + esc(label || thinkingLabel(''));
+  t.classList.toggle('bad', !!isError);
   t.hidden = false; scrollEnd();
-  S.typingTimer = setTimeout(function(){ t.hidden = true; }, 40000);
+  S.typingTimer = setTimeout(function(){
+    if (isError){ t.hidden = true; t.classList.remove('bad'); return; }
+    t.innerHTML = 'Dit duurt langer dan normaal. Ververs de pagina als er niets komt.';
+    t.classList.add('bad');
+    S.typingTimer = setTimeout(function(){ t.hidden = true; t.classList.remove('bad'); }, 20000);
+  }, isError ? 9000 : 45000);
+}
+function broadcast(event, payload){
+  try{ if (S.channel) S.channel.send({type:'broadcast', event:event, payload:payload}); }catch(e){}
 }
 function subscribe(){
   unsubscribe();
@@ -803,7 +1178,11 @@ function subscribe(){
       try{ var r = await sb.from('profiles').select('name').eq('id',m.user_id).maybeSingle(); S.members[m.user_id] = (r.data&&r.data.name)||'Iemand'; headInfo(); }catch(e){}
     }
     addMsg(m);
-    if (m.user_id && m.user_id !== S.user.id && m.asked_ai) showTyping(true);
+    if (m.user_id && m.user_id !== S.user.id && m.asked_ai) showTyping(true, thinkingLabel(m.content));
+  }).on('broadcast', {event:'thinking'}, function(p){
+    var d = p && p.payload || {};
+    if (d.from === S.user.id) return;
+    if (d.on) showTyping(true, d.label); else showTyping(false);
   }).on('postgres_changes',{event:'*',schema:'public',table:'message_likes'}, function(p){
     var row = p.new && p.new.message_id ? p.new : p.old;
     if (!row || !S.ids[row.message_id]) return;
@@ -815,7 +1194,7 @@ function subscribe(){
 }
 function unsubscribe(){ if (S.channel){ try{ sb.removeChannel(S.channel); }catch(e){} S.channel = null; } }
 function leaveView(){
-  unsubscribe(); showTyping(false); S.room = null; closeSheet();
+  unsubscribe(); showTyping(false); S.replyTo = null; S.mention = null; S.room = null; closeSheet();
   loadRooms().then(function(){ if (!S.room) render(); });
   render();
 }
@@ -829,17 +1208,97 @@ function errText(code){
   if (code === 'bad_format') return 'Het antwoord kwam verkeerd terug. Probeer het nog een keer.';
   return 'De vrouwen zijn even stil. Probeer het zo nog eens.';
 }
-async function askAI(){
-  showTyping(true);
-  var code = '';
+function storyKey(){ return 'shoulders-story-' + ((S.user && S.user.id) || 'x'); }
+function getStory(){ try{ return JSON.parse(localStorage.getItem(storyKey()) || '{}'); }catch(e){ return {}; } }
+function setStory(o){ try{ localStorage.setItem(storyKey(), JSON.stringify(o)); return true; }catch(e){ return false; } }
+async function askAI(text){
+  var label = thinkingLabel(text);
+  showTyping(true, label);
+  broadcast('thinking', {on:true, label:label, from:S.user.id});
+  var code = '', st = getStory();
   try{
-    var r = await sb.functions.invoke('chat', {body:{room_id:S.room.id}});
+    var r = await sb.functions.invoke('chat', {body:{room_id:S.room.id, story: st.text || '', story_groups: !!st.groups}});
     if (r.error){
       try{ var j = await r.error.context.json(); code = j.error; }catch(e){ code = 'x'; }
-      showTyping(false); toast(errText(code));
+      showTyping(true, errText(code), true); toast(errText(code));
     }
-  }catch(e){ showTyping(false); toast(errText('x')); }
+  }catch(e){ showTyping(true, errText('x'), true); toast(errText('x')); }
+  broadcast('thinking', {on:false, from:S.user.id});
   await fetchMessagesMerge();
+}
+/* @-noemen */
+function mentionCandidates(){
+  var c = [];
+  S.roomFigs.forEach(function(sl){ var f = figBySlug(sl); if (f) c.push({name:f.name, fig:f}); });
+  Object.keys(S.members).forEach(function(k){ if (k !== S.user.id) c.push({name:S.members[k], person:true}); });
+  return c;
+}
+function mentionedFigs(text){
+  var t = String(text||'').toLowerCase(), out = [];
+  S.roomFigs.forEach(function(sl){
+    var f = figBySlug(sl); if (!f) return;
+    var full = f.name.toLowerCase();
+    var parts = full.split(/\s+/).filter(function(p){ return p.length > 2 && ['de','van','der'].indexOf(p) < 0; });
+    var hit = t.indexOf('@' + full) > -1 || t.indexOf(full) > -1 || parts.some(function(p){
+      var common = ['truth','bell','hooks','mary'].indexOf(p) > -1;
+      return new RegExp('(^|[^a-zà-ÿ])' + (common ? '@' : '@?') + p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '([^a-zà-ÿ]|$)').test(t);
+    });
+    if (hit) out.push(sl);
+  });
+  return out;
+}
+function closeMention(){ S.mention = null; var b = $('#mention'); if (b){ b.hidden = true; b.innerHTML = ''; } }
+function checkMention(ta){
+  var pos = ta.selectionStart || ta.value.length, before = ta.value.slice(0, pos);
+  var m = before.match(/(^|\s)@([^\s@]{0,20})$/);
+  if (!m){ closeMention(); return; }
+  var q = m[2].toLowerCase();
+  var list = mentionCandidates().filter(function(c){ return !q || c.name.toLowerCase().split(/\s+/).some(function(w){ return w.indexOf(q) === 0; }) || c.name.toLowerCase().indexOf(q) === 0; }).slice(0, 6);
+  if (!list.length){ closeMention(); return; }
+  S.mention = {start: pos - m[2].length - 1, end: pos};
+  var b = $('#mention'); if (!b) return;
+  b.innerHTML = list.map(function(c){
+    return '<button type="button" data-act="mention" data-n="'+esc(c.name)+'">'+(c.fig ? sm(c.fig) : '<span class="sm pp">'+esc(initials(c.name))+'</span>')+'<span>'+esc(c.name)+'</span>'+(c.fig?'<small>vrouw</small>':'<small>vriend(in)</small>')+'</button>';
+  }).join('');
+  b.hidden = false;
+}
+function insertMention(name){
+  var ta = $('#msg'); if (!ta || !S.mention) return;
+  var v = ta.value, s = S.mention.start, e = S.mention.end;
+  var ins = '@' + name + ' ';
+  ta.value = v.slice(0, s) + ins + v.slice(e);
+  var p = s + ins.length; ta.focus(); try{ ta.setSelectionRange(p, p); }catch(x){}
+  closeMention();
+}
+/* antwoorden op een bericht */
+function setReply(id){
+  S.replyTo = id || null;
+  var b = $('#replybar'); if (!b) return;
+  if (!id){ b.hidden = true; b.innerHTML = ''; return; }
+  var m = findMsg(id); if (!m){ S.replyTo = null; b.hidden = true; return; }
+  b.innerHTML = '<div><b>Antwoord op '+esc(whoName(m))+'</b><span>'+esc(String(m.content||'').replace(/\s+/g,' ').slice(0,80))+'</span></div><button type="button" data-act="noreply" aria-label="Annuleren">×</button>';
+  b.hidden = false;
+  var ta = $('#msg'); if (ta) ta.focus();
+}
+function bindSwipe(){
+  var l = $('#list'); if (!l || l.dataset.sw) return; l.dataset.sw = '1';
+  var sx = 0, sy = 0, el = null, dx = 0;
+  l.addEventListener('touchstart', function(e){
+    var m = e.target.closest('.m[data-id]'); if (!m || e.touches.length !== 1) { el = null; return; }
+    el = m; sx = e.touches[0].clientX; sy = e.touches[0].clientY; dx = 0;
+  }, {passive:true});
+  l.addEventListener('touchmove', function(e){
+    if (!el) return;
+    dx = e.touches[0].clientX - sx; var dy = Math.abs(e.touches[0].clientY - sy);
+    if (dy > 30){ el.style.transform = ''; el = null; return; }
+    if (dx > 0) el.style.transform = 'translateX(' + Math.min(dx, 80) + 'px)';
+  }, {passive:true});
+  l.addEventListener('touchend', function(){
+    if (!el) return;
+    var id = el.dataset.id; el.style.transform = ''; 
+    if (dx > 60){ setReply(id); if (navigator.vibrate) try{ navigator.vibrate(12); }catch(x){} }
+    el = null; dx = 0;
+  });
 }
 async function fetchMessagesMerge(){
   if (!S.room) return;
@@ -852,11 +1311,16 @@ async function send(){
   var ta = $('#msg'); if (!ta || S.sending) return;
   var text = ta.value.trim(); if (!text) return;
   S.sending = true; ta.value = ''; ta.style.height = 'auto';
-  var ask = S.ask;
-  var r = await sb.from('messages').insert({room_id:S.room.id,user_id:S.user.id,content:text,asked_ai:ask}).select('*').single();
+  var ask = S.ask || mentionedFigs(text).length > 0;
+  var row = {room_id:S.room.id,user_id:S.user.id,content:text,asked_ai:ask};
+  if (S.replyTo) row.reply_to = S.replyTo;
+  var r = await sb.from('messages').insert(row).select('*').single();
+  if (r.error && row.reply_to){ delete row.reply_to; r = await sb.from('messages').insert(row).select('*').single(); }
   if (r.error || !r.data){ toast('Versturen lukt niet. Probeer het nog eens.'); ta.value = text; S.sending = false; return; }
+  setReply(null); closeMention();
   addMsg(r.data);
-  if (ask) await askAI();
+  try{ sb.functions.invoke('notify', {body:{room_id:S.room.id, message_id:r.data.id}}).then(function(){}, function(){}); }catch(e){}
+  if (ask) await askAI(text);
   S.sending = false;
 }
 
@@ -918,7 +1382,7 @@ async function setPhoto(slug, file){
 }
 document.addEventListener('visibilitychange', function(){
   if (document.visibilityState !== 'visible' || !sb || !S.user) return;
-  if (S.room){ markSeen(S.room.id); return; }
+  if (S.room){ markSeen(S.room.id); fetchMessagesMerge(); return; }
   loadRooms().then(function(){ if (!S.room && S.tab === 'chats') render(); });
 });
 document.addEventListener('change', function(e){
@@ -928,13 +1392,47 @@ document.addEventListener('click', async function(e){
   var a = e.target.closest('[data-act]'); if (!a) return;
   var act = a.dataset.act;
   try{
-  if (act === 'tab'){ S.tab = a.dataset.t; if (S.tab === 'quiz') loadQuiz(); render(); window.scrollTo(0,0); }
+  if (act === 'tab'){ S.tab = a.dataset.t; if (S.tab === 'quiz') loadQuiz(); if (S.tab === 'vrouwen' && sb && S.user) loadProposals(); render(); window.scrollTo(0,0); }
+  else if (act === 'council'){ S.councilPick = []; councilSheet(); }
+  else if (act === 'cpick'){
+    var cp = S.councilPick = S.councilPick || [], ci = cp.indexOf(a.dataset.s);
+    if (ci > -1) cp.splice(ci,1); else if (cp.length < 3) cp.push(a.dataset.s); else { toast('Maximaal drie.'); return; }
+    a.classList.toggle('on', cp.indexOf(a.dataset.s) > -1);
+  }
+  else if (act === 'cask'){ await askCouncil(); }
+  else if (act === 'cback'){ S.inCouncil = false; S.council = null; render(); }
+  else if (act === 'copen'){ S.council = S.councils[Number(a.dataset.i)]; renderCouncil(); }
+  else if (act === 'cchat'){ await councilToChat(a.dataset.s); }
+  else if (act === 'pushon'){ await enablePush(); }
+  else if (act === 'pushoff'){ await disablePush(); }
+  else if (act === 'pushhint'){ try{ localStorage.setItem('shoulders-pushhint','nee'); }catch(x){} render(); }
+  else if (act === 'storysave'){
+    var ok = setStory({text: ($('#story')||{}).value || '', groups: !!(($('#storygroups')||{}).checked)});
+    toast(ok ? 'Bewaard op deze telefoon.' : 'Bewaren lukt niet in deze browser.'); render();
+  }
+  else if (act === 'storyclear'){ setStory({}); toast('Gewist.'); render(); }
+  else if (act === 'propose'){
+    var pn = (($('#pname')||{}).value || '').trim(), pw = (($('#pwhy')||{}).value || '').trim();
+    if (!pn){ toast('Vul een naam in.'); return; }
+    var pr = await sb.from('proposals').insert({user_id:S.user.id, name:pn, why:pw || null});
+    if (pr.error){ toast('Voorstellen lukt nog niet. Draai eerst de nieuwe supabase.sql.'); return; }
+    toast('Dank je! Je voorstel staat erin.'); await loadProposals(); render();
+  }
+  else if (act === 'pok' || act === 'pno'){
+    var pu = await sb.from('proposals').update({status: act === 'pok' ? 'goedgekeurd' : 'afgewezen'}).eq('id', a.dataset.id);
+    if (pu.error){ toast('Dat lukt niet.'); return; }
+    await loadProposals(); render();
+  }
   else if (act === 'qa'){ await answer(Number(a.dataset.i), a.dataset.o); }
   else if (act === 'qnext'){ if (S.quiz){ S.quiz.reveal = null; render(); } }
   else if (act === 'close'){ closeSheet(); }
   else if (act === 'mode'){ S.authMode = a.dataset.m; render(); }
   else if (act === 'like'){ await toggleLike(a.dataset.id); }
   else if (act === 'fig'){ figSheet(a.dataset.s); }
+  else if (act === 'mention'){ insertMention(a.dataset.n); }
+  else if (act === 'reply'){ setReply(a.dataset.id); }
+  else if (act === 'noreply'){ setReply(null); }
+  else if (act === 'jump'){ var tg = document.querySelector('.m[data-id="'+a.dataset.id+'"]'); if (tg){ tg.scrollIntoView({block:'center', behavior:'smooth'}); tg.classList.add('flash'); setTimeout(function(){ tg.classList.remove('flash'); }, 1300); } }
   else if (act === 'casave'){
     var adv = {rocket: ($('#ca-r')||{}).value || '', eye: ($('#ca-e')||{}).value || '', heart: ($('#ca-h')||{}).value || ''};
     var rc = await sb.rpc('set_card_advice', {fslug: a.dataset.s, rocket: adv.rocket, eye: adv.eye, heart: adv.heart});
@@ -1033,14 +1531,17 @@ document.addEventListener('keydown', function(e){
   if (e.target && e.target.id === 'msg' && e.key === 'Enter' && (e.metaKey || e.ctrlKey)){ e.preventDefault(); send(); }
 });
 document.addEventListener('input', function(e){
-  if (e.target && e.target.id === 'msg'){ e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 140) + 'px'; }
+  if (e.target && e.target.id === 'msg'){ e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 140) + 'px'; checkMention(e.target); }
 });
 
 /* ---------- Start ---------- */
 (function init(){
   try{
-    var p = new URLSearchParams(location.search).get('code');
-    if (p){ sessionStorage.setItem('joincode', p); history.replaceState(null,'',location.pathname); }
+    var qs = new URLSearchParams(location.search);
+    var p = qs.get('code'), rm = qs.get('room');
+    if (p) sessionStorage.setItem('joincode', p);
+    if (rm) sessionStorage.setItem('openroom', rm);
+    if (p || rm) history.replaceState(null,'',location.pathname);
   }catch(e){}
   if (!sb){ render(); return; }
   var started = false;
