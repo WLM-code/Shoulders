@@ -232,6 +232,9 @@ input:focus,textarea:focus{outline:3px solid var(--sky)}
 .cps{font-family:var(--caps);font-size:19px;line-height:1.2;color:var(--hot)}
 .cpb p{margin:0;font-size:15.5px}
 .cpb .btn{margin-top:auto;align-self:flex-start}
+.dz{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.link.danger{color:#A8322C}
+.danger-btn{background:#A8322C;color:#fff;border-color:#2B241C}
 .plist{margin-top:14px;border-top:1px solid rgba(0,0,0,.12);padding-top:10px}
 .prow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.08)}
 .prow small{opacity:.7}
@@ -873,7 +876,7 @@ function quizTab(){
 function meTab(){
   var h = '';
   if (sb && S.user){
-    h += storyCard() + pushCard(false);
+    h += storyCard() + pushCard(false) + privacyCard();
     h += '<div class="card pad"><b class="cap">Ingelogd als</b><p>'+esc((S.profile&&S.profile.name)||'')+'<br><small class="hint">'+esc(S.user.email||'')+'</small></p><div><button class="btn small" data-act="logout">Uitloggen</button></div></div>';
   }
   h += '<div class="card pad"><b class="cap">Zet de app op je beginscherm</b>'
@@ -1028,11 +1031,11 @@ async function openRoom(id){
   drawChatShell();
   try{
     var r = await Promise.all([
-      sb.from('rooms').select('id,title,invite_code').eq('id',id).maybeSingle(),
+      sb.from('rooms').select('id,title,invite_code,created_by').eq('id',id).maybeSingle(),
       sb.from('room_members').select('user_id,profiles(name)').eq('room_id',id),
       sb.from('room_figures').select('figure_slug').eq('room_id',id)
     ]);
-    if (r[0].data){ S.room.title = r[0].data.title; S.room.code = r[0].data.invite_code; }
+    if (r[0].data){ S.room.title = r[0].data.title; S.room.code = r[0].data.invite_code; S.room.created_by = r[0].data.created_by; }
     (r[1].data||[]).forEach(function(m){ S.members[m.user_id] = (m.profiles && m.profiles.name) || 'Iemand'; });
     S.roomFigs = (r[2].data||[]).map(function(x){return x.figure_slug;});
   }catch(e){}
@@ -1337,9 +1340,45 @@ function infoSheet(){
        ? '<span class="chip pick on">'+esc(f.name)+'<button class="rm" data-act="rmfig" data-s="'+esc(f.slug)+'" title="Uit de chat halen" aria-label="'+esc(f.name)+' uit de chat halen">×</button></span>'
        : '<button class="chip pick" data-act="addfig" data-s="'+esc(f.slug)+'">'+esc(f.name)+(inn?'':' +')+'</button>'; }).join('')
    +'</div></div>'
-   +'<div><button class="link" data-act="leave">Chat verlaten</button></div>';
+   +'<div class="dz"><button class="link" data-act="leave">Chat verlaten</button><button class="link danger" data-act="delroom">Wis deze chat</button></div>';
   sheet(h);
   S._link = link;
+}
+
+/* ---------- wissen ---------- */
+function delRoomSheet(){
+  var others = Object.keys(S.members).filter(function(k){ return k !== S.user.id; }).length;
+  var mine = S.room.created_by === S.user.id;
+  var h = '<button class="x" data-act="close">Sluiten</button><h3>Wis deze chat</h3>';
+  if (!others){
+    h += '<p>Deze chat en alle berichten erin worden gewist, ook de antwoorden van de vrouwen. Dat kan niet terug.</p>'
+      + '<button class="btn danger-btn" data-act="delroomgo" data-all="1" style="width:100%">Wis de chat</button>';
+  } else {
+    h += '<p>Er zitten nog '+others+' anderen in deze chat.</p>'
+      + '<button class="btn" data-act="delroomgo" data-all="0" style="width:100%">Alleen voor mij</button>'
+      + '<p class="hint">Jouw eigen berichten worden gewist en je verlaat de chat. De rest blijft voor de anderen staan.</p>'
+      + (mine ? '<button class="btn danger-btn" data-act="delroomgo" data-all="1" style="width:100%">Voor iedereen</button><p class="hint">Jij hebt deze chat gemaakt. De hele chat verdwijnt, ook voor de anderen.</p>' : '');
+  }
+  sheet(h);
+}
+function delAccountSheet(){
+  sheet('<button class="x" data-act="close">Sluiten</button><h3>Wis mijn account</h3>'
+    +'<p>Dit wist je account, je naam, al je berichten, je likes, je quizscores, je raden, je voorstellen en je meldingen. Chats waar alleen jij in zit verdwijnen helemaal. In groepschats blijven de berichten van anderen staan, de jouwe niet.</p>'
+    +'<p>Mijn verhaal op deze telefoon wordt ook gewist. Dat kan niet terug.</p>'
+    +'<label class="f"><span>Typ WISSEN om te bevestigen</span><input id="delconfirm" autocomplete="off" autocapitalize="characters"></label>'
+    +'<div id="delerr" class="err" hidden></div>'
+    +'<button class="btn danger-btn" data-act="delaccgo" style="width:100%">Wis alles</button>');
+}
+function privacyCard(){
+  if (!sb || !S.user) return '';
+  return '<div class="card pad"><b class="cap">Privacy</b>'
+    +'<p class="hint"><b>Waar staat het?</b> Je berichten staan in de database van deze app, gekoppeld aan je account. Vrienden zien alleen de chats waar ze in zitten. De beheerder van de app kan technisch alles inzien.</p>'
+    +'<p class="hint"><b>Wat gaat naar de AI?</b> Alleen als een vrouw antwoordt: de laatste berichten van die chat, met voornamen, zonder e-mailadressen. De AI is Claude van Anthropic. Die traint niet op deze berichten en verwijdert ze binnen 30 dagen, behalve als iets als misbruik wordt gemarkeerd.</p>'
+    +'<p class="hint"><b>Wat is misbruik?</b> Dingen die tegen de gebruiksregels van de AI ingaan, zoals hulp vragen bij geweld, wapens, oplichting, hacken, iemand lastigvallen of seksueel materiaal met kinderen. Praten over je eigen leven valt daar niet onder, ook niet over moeilijke dingen als verdriet, ruzie of geweld dat jou is aangedaan.</p>'
+    +'<p class="hint"><b>Mijn verhaal</b> staat alleen op deze telefoon en gaat alleen mee bij een vraag.</p>'
+    +'<p class="hint"><b>Meldingen</b> lopen versleuteld via Apple of Google.</p>'
+    +'<p class="hint">Een chat wissen: open de chat, tik op Info, dan Wis deze chat.</p>'
+    +'<button class="btn small danger-btn" data-act="delacc">Wis mijn account</button></div>';
 }
 
 /* ---------- Acties ---------- */
@@ -1497,6 +1536,28 @@ document.addEventListener('click', async function(e){
     var rr = await sb.rpc('add_figures', {rid: S.room.id, p_figures:[a.dataset.s]});
     if (rr.error){ toast('Toevoegen lukt niet. Probeer het zo nog eens.'); return; }
     S.roomFigs.push(a.dataset.s); headInfo(); infoSheet();
+  }
+  else if (act === 'delroom'){ delRoomSheet(); }
+  else if (act === 'delroomgo'){
+    var all = a.dataset.all === '1';
+    if (!confirm(all ? 'Zeker weten? De hele chat verdwijnt.' : 'Zeker weten? Je berichten worden gewist en je verlaat de chat.')) return;
+    var dr = await sb.rpc('delete_room', {rid: S.room.id, for_everyone: all});
+    if (dr.error){ toast('Wissen lukt niet. Draai eerst de nieuwe supabase.sql.'); return; }
+    closeSheet(); leaveView(); toast(dr.data === 'weg' ? 'Chat gewist.' : 'Je berichten zijn gewist en je hebt de chat verlaten.');
+  }
+  else if (act === 'delacc'){ delAccountSheet(); }
+  else if (act === 'delaccgo'){
+    var val = (($('#delconfirm')||{}).value || '').trim().toUpperCase();
+    var de = $('#delerr');
+    if (val !== 'WISSEN'){ de.textContent = 'Typ WISSEN om te bevestigen.'; de.hidden = false; return; }
+    a.disabled = true; a.textContent = 'Bezig met wissen…';
+    var da = await sb.rpc('delete_my_account');
+    if (da.error){ de.textContent = 'Wissen lukt niet. Vraag de beheerder om de nieuwe supabase.sql te draaien.'; de.hidden = false; a.disabled = false; a.textContent = 'Wis alles'; return; }
+    try{ localStorage.removeItem(storyKey()); localStorage.removeItem(seenKey()); }catch(x){}
+    try{ var rg = swReg || (navigator.serviceWorker && await navigator.serviceWorker.getRegistration()); var sb2 = rg && await rg.pushManager.getSubscription(); if (sb2) await sb2.unsubscribe(); }catch(x){}
+    closeSheet();
+    try{ await sb.auth.signOut(); }catch(x){}
+    toast('Je account en je berichten zijn gewist.');
   }
   else if (act === 'leave'){
     if (!confirm('Weet je zeker dat je deze chat wilt verlaten?')) return;
