@@ -1372,7 +1372,8 @@ function delAccountSheet(){
 function privacyCard(){
   if (!sb || !S.user) return '';
   return '<div class="card pad"><b class="cap">Privacy</b>'
-    +'<p class="hint"><b>Waar staat het?</b> Je berichten staan in de database van deze app, gekoppeld aan je account. Vrienden zien alleen de chats waar ze in zitten. De beheerder van de app kan technisch alles inzien.</p>'
+    +'<p class="hint"><b>Waar staat het?</b> Je berichten staan in de database van deze app, gekoppeld aan je account. Die database staat in Europa. Vrienden zien alleen de chats waar ze in zitten.</p>'
+    +'<p class="hint"><b>Wie beheert het?</b> De beheerder is de maker van deze app. Technisch kan zij alles inzien, maar ze leest je berichten niet.</p>'
     +'<p class="hint"><b>Wat gaat naar de AI?</b> Alleen als een vrouw antwoordt: de laatste berichten van die chat, met voornamen, zonder e-mailadressen. De AI is Claude van Anthropic. Die traint niet op deze berichten en verwijdert ze binnen 30 dagen, behalve als iets als misbruik wordt gemarkeerd.</p>'
     +'<p class="hint"><b>Wat is misbruik?</b> Dingen die tegen de gebruiksregels van de AI ingaan, zoals hulp vragen bij geweld, wapens, oplichting, hacken, iemand lastigvallen of seksueel materiaal met kinderen. Praten over je eigen leven valt daar niet onder, ook niet over moeilijke dingen als verdriet, ruzie of geweld dat jou is aangedaan.</p>'
     +'<p class="hint"><b>Mijn verhaal</b> staat alleen op deze telefoon en gaat alleen mee bij een vraag.</p>'
